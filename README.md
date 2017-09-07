@@ -13,4 +13,4 @@ Docker Hub: https://hub.docker.com/r/halplatform/hal-build-environments
 
 #### Linux
 
-- tbd
+- [Debian Jessie - Buildpack](linux/debian8/buildpack)
