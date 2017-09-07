@@ -1,4 +1,4 @@
-FROM microsoft/windowsservercore:10.0.14393.1593
+FROM microsoft/windowsservercore:10.0.14393.1480
 
 # We use the same configuration as microsoft's VSTS agents
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
