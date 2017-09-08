@@ -55,41 +55,27 @@ RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm in
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Install .NET Core
-ENV DOTNET_VERSION 1.1.1
-ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
+# Install .NET Core 1.0.5, 1.1.2
+ENV DOTNET_VERSION      1.1.2
+ENV DOTNET_DOWNLOAD_URL https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-win-x64.$DOTNET_VERSION.zip
+ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/1/B/4/1B4DE605-8378-47A5-B01B-2C79D6C55519/dotnet-sdk-$DOTNET_SDK_VERSION-win-x64.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
-
-# Install .NET Core
-ENV DOTNET_VERSION 1.0.4
-ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
-
-# Install .NET Core
-ENV DOTNET_VERSION 2.0.0
-ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
-
-# Install .NET Core SDK
-ENV DOTNET_SDK_VERSION 1.0.1
-ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
-# Install .NET Core SDK
-ENV DOTNET_SDK_VERSION 2.0.0
-ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
+# Install .NET Core 2.0
+ENV DOTNET_VERSION          2.0.0
+ENV DOTNET_DOWNLOAD_URL     https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
+ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/1/B/4/1B4DE605-8378-47A5-B01B-2C79D6C55519/dotnet-sdk-$DOTNET_SDK_VERSION-win-x64.zip
+
+RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+    Remove-Item -Force dotnet.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
