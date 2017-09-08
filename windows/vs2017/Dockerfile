@@ -22,7 +22,7 @@ RUN choco install \
     ruby \
     --confirm \
     --limit-output \
-    --timeout 216000 \
+    --timeout 3600 \
     && rmdir /S /Q C:\chococache
    # choco install visualstudio2015community --confirm --timeout 216000 \
 
@@ -37,7 +37,7 @@ RUN choco install \
     --package-parameters "--passive --locale en-US --includeOptional" \
     --confirm \
     --limit-output \
-    --timeout 216000 \
+    --timeout 3600 \
     && rmdir /S /Q C:\chococache
 
 RUN choco install \
@@ -46,7 +46,8 @@ RUN choco install \
     visualstudio2017-workload-netweb \
     --confirm \
     --limit-output \
-    --timeout 21600 \
+    --timeout 3600 \
+    --ignore-package-exit-codes \
     --package-parameters "--includeOptional" \
     && rmdir /S /Q C:\chococache
 
