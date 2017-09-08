@@ -41,7 +41,6 @@ RUN choco install \
     && rmdir /S /Q C:\chococache
 
 RUN choco install \
-    visualstudio2017-workload-azure \
     visualstudio2017-workload-netcoretools \
     visualstudio2017-workload-netweb \
     --confirm \
