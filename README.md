@@ -10,9 +10,9 @@ Docker Hub: https://hub.docker.com/r/halplatform/hal-build-environments
 
 #### Windows
 
-- [Windows Server Core - Visual Studio 2015](windows/vs2015)
-- [Windows Server Core - Visual Studio 2017](windows/vs2017)
+- [Windows Server Core - Visual Studio 2015](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)
+- [Windows Server Core - Visual Studio 2017](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)
 
 #### Linux
 
-- [Debian Jessie - Buildpack](linux/debian8/buildpack)
+- [Debian Jessie - Buildpack](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian8/buildpack/Dockerfile)
