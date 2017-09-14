@@ -4,7 +4,7 @@ This repository is the source for automated builds of standard docker images ava
 
 Hal is a release and deployment platform developed by Quicken Loans. See more information here: [hal-platform/hal](https://github.com/hal-platform/hal)
 
-Docker Hub: https://hub.docker.com/r/halplatform/hal-build-environments
+Docker Hub: [hub.docker.com/r/halplatform](https://hub.docker.com/r/halplatform/hal-build-environments)
 
 ## Environments
 
