@@ -36,18 +36,10 @@ RUN choco install \
     --package-parameters "--passive --locale en-US --includeOptional" \
     --confirm \
     --limit-output \
-    --timeout 3600 \
+    --timeout 81600 \
     && rmdir /S /Q C:\chococache
 
-RUN choco install \
-    visualstudio2017-workload-netcoretools \
-    visualstudio2017-workload-netweb \
-    --confirm \
-    --limit-output \
-    --timeout 3600 \
-    --ignore-package-exit-codes \
-    --package-parameters "--includeOptional" \
-    && rmdir /S /Q C:\chococache
+# DO NOT CHANGE ABOVE THIS LINE! INSTALLATION TAKES FOR-EV-ER
 
 # common node tools
 RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs-prebuilt -g
