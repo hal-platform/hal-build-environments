@@ -1,9 +1,7 @@
 FROM microsoft/windowsservercore:10.0.14393.1480
 
-# We use the same configuration as microsoft's VSTS agents
+# We use the same configuration as Microsoft's VSTS agents
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
-# todo add dotnet 3.5
-# - see https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/master/windows-container-samples/dotnet35/Dockerfile
 
 ENV chocolateyUseWindowsCompression=false
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
@@ -25,12 +23,7 @@ RUN choco install \
     --timeout 3600 \
     && rmdir /S /Q C:\chococache
 
-RUN choco install \
-    dotnet4.6.1 \
-    --confirm \
-    --limit-output \
-    && rmdir /S /Q C:\chococache
-
+# NOTE: This step takes FOREVER. Be prepared to wait 4+ hours.
 RUN choco install \
     visualstudio2015enterprise \
     --package-parameters "--passive --locale en-US --includeOptional" \
@@ -39,12 +32,29 @@ RUN choco install \
     --timeout 81600 \
     && rmdir /S /Q C:\chococache
 
-# DO NOT CHANGE ABOVE THIS LINE! INSTALLATION TAKES FOR-EV-ER
-
-# common node tools
-RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs-prebuilt -g
+# Common node tools
+RUN npm install gulp -g && \
+    npm install grunt -g && \
+    npm install -g less && \
+    npm install phantomjs-prebuilt -g
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Install NuGet, .NET Framework 4.5, 4.6, 4.7
+RUN choco install \
+    nuget.commandline \
+    \
+    netfx-4.7-devpack \
+    netfx-4.6-devpack \
+    netfx-4.6.1-devpack \
+    netfx-4.6.2-devpack \
+    netfx-4.5.2-devpack \
+    netfx-4.5.1-devpack \
+    netfx-4.0.3-devpack \
+    netfx-4.0.2-devpack \
+    netfx-4.0.1-devpack \
+    \
+    && rmdir /S /Q C:\chococache
 
 # Install .NET Core 1.0.5, 1.1.2
 ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-win-x64.1.1.2.zip
@@ -70,8 +80,12 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
+# Add Visual Studio tools and dotnet to PATH
 SHELL ["cmd", "/S", "/C"]
 
+RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\MSBuild\14.0\Bin"
+RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE"
+RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
 RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 
 # Trigger the population of the local package cache
