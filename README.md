@@ -10,6 +10,11 @@ Docker Hub: [hub.docker.com/r/halplatform](https://hub.docker.com/r/halplatform/
 
 #### Windows
 
+Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and 2.x.
+
+> No container contains .NET Framework 3.5.
+> See https://github.com/Microsoft/dotnet-framework-docker/blob/master/3.5/Dockerfile
+
 - [Windows Server Core - Visual Studio 2015](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)
 - [Windows Server Core - Visual Studio 2017](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)
 
