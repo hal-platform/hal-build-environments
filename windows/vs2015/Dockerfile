@@ -21,6 +21,7 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 3600 \
+    \
     && rmdir /S /Q C:\chococache
 
 # NOTE: This step takes FOREVER. Be prepared to wait 4+ hours.
@@ -30,6 +31,7 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 81600 \
+    \
     && rmdir /S /Q C:\chococache
 
 # Common node tools
