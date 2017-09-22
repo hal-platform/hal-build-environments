@@ -51,7 +51,7 @@ RUN npm install gulp -g && \
     npm install phantomjs-prebuilt -g
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
-RUN choco install \
+RUN choco install -y \
     nuget.commandline \
     \
     netfx-4.7-devpack \
