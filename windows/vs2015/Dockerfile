@@ -85,9 +85,9 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
 # Add Visual Studio tools and dotnet to PATH
 SHELL ["cmd", "/S", "/C"]
 
-RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\MSBuild\14.0\Bin"
-RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE"
-RUN setx /M PATH "%PATH%;%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
+RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\MSBuild\14.0\Bin"
+RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE"
+RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
 RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 
 # Trigger the population of the local package cache
