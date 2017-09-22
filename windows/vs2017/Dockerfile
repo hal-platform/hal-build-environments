@@ -51,9 +51,8 @@ RUN npm install gulp -g && \
     npm install phantomjs-prebuilt -g
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
-RUN choco install -y \
+RUN choco install \
     nuget.commandline \
-    \
     netfx-4.7-devpack \
     netfx-4.6-devpack \
     netfx-4.6.1-devpack \
@@ -63,6 +62,10 @@ RUN choco install -y \
     netfx-4.0.3-devpack \
     netfx-4.0.2-devpack \
     netfx-4.0.1-devpack \
+    --confirm \
+    --limit-output \
+    --timeout 1800 \
+    --ignore-package-exit-codes \
     \
     && rmdir /S /Q C:\chococache
 
