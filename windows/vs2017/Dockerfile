@@ -53,15 +53,9 @@ RUN npm install gulp -g && \
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
 RUN choco install \
     nuget.commandline \
-    netfx-4.7-devpack \
-    netfx-4.6-devpack \
-    netfx-4.6.1-devpack \
     netfx-4.6.2-devpack \
     netfx-4.5.2-devpack \
-    netfx-4.5.1-devpack \
     netfx-4.0.3-devpack \
-    netfx-4.0.2-devpack \
-    netfx-4.0.1-devpack \
     --confirm \
     --limit-output \
     --timeout 1800 \
