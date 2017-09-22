@@ -50,8 +50,6 @@ RUN npm install gulp -g && \
     npm install -g less && \
     npm install phantomjs-prebuilt -g
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
 RUN choco install \
     nuget.commandline \
@@ -67,6 +65,8 @@ RUN choco install \
     netfx-4.0.1-devpack \
     \
     && rmdir /S /Q C:\chococache
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install .NET Core 1.0.5, 1.1.2
 ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-win-x64.1.1.2.zip
