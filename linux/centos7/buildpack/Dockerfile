@@ -10,7 +10,7 @@ RUN \
         \
         curl wget \
         \
-        tar zip unzip \
+        bzip2 tar zip unzip \
         \
         && \
     yum -y groupinstall \
