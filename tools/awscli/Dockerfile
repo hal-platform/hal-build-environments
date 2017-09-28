@@ -11,4 +11,4 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/* \
         && \
-    pipe install awscli
+    pip install awscli
