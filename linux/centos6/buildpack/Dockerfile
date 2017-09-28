@@ -4,13 +4,13 @@ RUN \
     yum -y update \
         && \
     yum -y install \
-        epel-release
+        epel-release \
         \
         cvs git mercurial subversion \
         \
         curl wget \
         \
-        tar zip unzip \
+        bzip2 tar zip unzip \
         \
         && \
     yum -y groupinstall \
