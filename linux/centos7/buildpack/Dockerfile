@@ -4,7 +4,7 @@ RUN \
     yum -y update \
         && \
     yum -y install \
-        epel-release
+        epel-release \
         \
         cvs git mercurial subversion \
         \
