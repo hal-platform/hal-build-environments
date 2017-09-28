@@ -6,7 +6,7 @@ RUN \
     yum -y install \
         epel-release
         \
-        bzr cvs git mercurial subversion \
+        cvs git mercurial subversion \
         \
         curl wget \
         \
