@@ -1,4 +1,4 @@
-FROM centos:centos6.9
+FROM centos:6.9
 
 RUN \
     yum -y update && yum clean all
