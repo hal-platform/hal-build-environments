@@ -1,7 +1,7 @@
 FROM centos:6.9
 
 RUN \
-    yum -y update && yum clean all
+    yum -y update \
         && \
     yum -y install \
         epel-release
