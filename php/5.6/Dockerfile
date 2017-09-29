@@ -56,7 +56,7 @@ ENV COMPOSER_VERSION        1.5.2
 
 RUN curl -L "https://composer.github.io/installer.sha384sum" \
         && \
-    curl -LO "https://getcomposer.org/installer" 
+    curl -L "https://getcomposer.org/installer" \
         -o "composer-setup.php" \
         && \
     ls -hal && \
