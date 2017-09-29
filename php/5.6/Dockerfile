@@ -51,8 +51,8 @@ RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini
 ################################################################################
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_NO_INTERACTION 1
-ENV COMPOSER_VERSION        1.5.2
+ENV COMPOSER_NO_INTERACTION  1
+ENV COMPOSER_VERSION         1.5.2
 
 RUN curl -LO "https://composer.github.io/installer.sha384sum" \
         && \
