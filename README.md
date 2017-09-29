@@ -36,5 +36,9 @@ Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and
 
 #### Elixir
 
-- `elixir1.2-centos7` ([elixir/1.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.2/Dockerfile))
-- `elixir1.3-centos7` ([elixir/1.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.3/Dockerfile))
+- `elixir1.2-centos7` ([elixir/1.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.2/Dockerfile)) (Erlang 18.3)
+- `elixir1.3-centos7` ([elixir/1.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.3/Dockerfile)) (Erlang 19.3)
+- `elixir1.4-centos7` ([elixir/1.4/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.4/Dockerfile)) (Erlang 19.3)
+- `elixir1.5-centos7` ([elixir/1.5/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.5/Dockerfile)) (Erlang 20.1)
+
+
