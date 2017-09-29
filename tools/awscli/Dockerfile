@@ -1,5 +1,7 @@
 FROM python:3.6.2-jessie
 
+ENV AWSCLI_VERSION 1.11.161
+
 RUN \
     apt-get update \
         && \
@@ -11,4 +13,4 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/* \
         && \
-    pip install awscli
+    pip install awscli=${AWSCLI_VERSION}
