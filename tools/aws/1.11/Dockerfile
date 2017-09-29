@@ -13,4 +13,4 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/* \
         && \
-    pip install awscli=${AWSCLI_VERSION}
+    pip install awscli=="${AWSCLI_VERSION}"
