@@ -8,6 +8,10 @@ See more information here: [hal-platform/hal](https://github.com/hal-platform/ha
 
 Docker Hub: [hub.docker.com/r/halplatform](https://hub.docker.com/r/halplatform/hal-build-environments)
 
+## Should I deploy these containers?
+
+No! All containers for designed for robust build environments. That means many dependencies required for **building and compiling** your project. Usually these dependencies are not required for **running** your project in a production-like environment.
+
 ## Available Environments
 
 #### Windows
