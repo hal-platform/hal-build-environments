@@ -16,7 +16,7 @@ RUN \
     yum -y groupinstall \
         'Development Tools' \
         && \
-    yum -y install
+    yum -y install \
         ImageMagick \
         bzip2-devel \
         libcurl-devel \
