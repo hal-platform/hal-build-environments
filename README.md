@@ -14,11 +14,11 @@ Docker Hub: [hub.docker.com/r/halplatform](https://hub.docker.com/r/halplatform/
 
 Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and 2.x.
 
-> No container contains .NET Framework 3.5.  
-> See https://github.com/Microsoft/dotnet-framework-docker/blob/master/3.5/Dockerfile
-
 - `vs2015` ([windows/vs2015/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)) (Windows Server Core - Visual Studio 2015)
 - `vs2017` ([windows/vs2017/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)) (Windows Server Core - Visual Studio 2017)
+
+> No container contains .NET Framework 3.5.  
+> See https://github.com/Microsoft/dotnet-framework-docker/blob/master/3.5/Dockerfile
 
 #### Linux
 
@@ -33,5 +33,4 @@ Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and
 #### Elixir
 
 - `elixir1.2-centos7` ([elixir/1.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.2/Dockerfile))
-
 - `elixir1.3-centos7` ([elixir/1.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.3/Dockerfile))
