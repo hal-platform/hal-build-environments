@@ -50,6 +50,7 @@ RUN yum install -y \
 
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
 ENV COMPOSER_VERSION        1.5.2
 
@@ -57,6 +58,7 @@ RUN curl -LO "https://composer.github.io/installer.sha384sum" \
         && \
     curl -LO "https://getcomposer.org/installer" \
         && \
+    ls -hal && \
     echo "$(cat installer.sha384sum installer)" | sha384sum -c - \
         && \
     php "./installer" -- \
