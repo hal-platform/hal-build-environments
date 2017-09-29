@@ -46,3 +46,8 @@ Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and
 - `node4.8-centos7` ([node/4.8/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/4.8/Dockerfile))
 - `node6.11-centos7` ([node/6.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/6.11/Dockerfile))
 - `node8.6-centos7` ([node/8.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/8.6/Dockerfile))
+
+#### PHP
+
+
+- `php5.6-centos7` ([php/5.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/5.6/Dockerfile))
