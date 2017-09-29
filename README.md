@@ -25,3 +25,13 @@ Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and
 - `debian8-buildpack` ([linux/debian8/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian8/buildpack/Dockerfile))
 - `centos6-buildpack` ([linux/centos6/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos6/buildpack/Dockerfile)) (Centos 6.9)
 - `centos7-buildpack` ([linux/centos7/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos7/buildpack/Dockerfile)) (Centos 7.4)
+
+#### Tools
+
+- `awscli` ([tools/awscli/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/Dockerfile))
+
+#### Elixir
+
+- `elixir1.2-centos7` ([elixir/1.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.2/Dockerfile))
+
+- `elixir1.3-centos7` ([elixir/1.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.3/Dockerfile))
