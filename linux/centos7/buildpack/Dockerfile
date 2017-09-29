@@ -18,22 +18,22 @@ RUN \
         && \
     yum -y install \
         ImageMagick \
+        ImageMagick-devel \
         bzip2-devel \
+        glib2-devel \
         libcurl-devel \
         libevent-devel \
         libffi-devel \
-        glib2-devel \
         libjpeg-devel \
-        ImageMagick-devel \
-        mysql-devel \
-        ncurses-devel \
-        postgresql-devel \
-        readline-devel \
-        sqlite-devel \
-        openssl-devel \
         libxml2-devel \
         libxslt-devel \
         libyaml-devel \
+        mysql-devel \
+        ncurses-devel \
+        openssl-devel \
+        postgresql-devel \
+        readline-devel \
+        sqlite-devel \
         zlib-devel \
         && \
     yum clean all
