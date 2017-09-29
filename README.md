@@ -12,7 +12,7 @@ No! All containers for designed for robust build environments. That means many d
 
 #### Windows
 
-Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and 2.x.
+Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and 2.x.
 
 - `vs2015` ([windows/vs2015/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)) (Windows Server Core - Visual Studio 2015)
 - `vs2017` ([windows/vs2017/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)) (Windows Server Core - Visual Studio 2017)
@@ -45,5 +45,11 @@ Windows containers have all versions of .NET Framework 4.x and .NET core 1.x and
 
 #### PHP
 
-
 - `php5.6-centos7` ([php/5.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/5.6/Dockerfile))
+- `php7.0-centos7` ([php/7.0/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.0/Dockerfile))
+- `php7.1-centos7` ([php/7.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.1/Dockerfile))
+
+#### Dotnet Core
+
+- `dotnet1.1-debian8` ([dotnet/1.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/1.1/Dockerfile))
+- `dotnet2.0-debian8` ([dotnet/2.0/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.0/Dockerfile))
