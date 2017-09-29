@@ -54,18 +54,19 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
 ENV COMPOSER_VERSION        1.5.2
 
-RUN curl -LO "https://composer.github.io/installer.sha384sum" \
+RUN curl -L "https://composer.github.io/installer.sha384sum" \
         && \
-    curl -LO "https://getcomposer.org/installer" \
+    curl -LO "https://getcomposer.org/installer" 
+        -o "composer-setup.php" \
         && \
     ls -hal && \
-    echo "$(cat installer.sha384sum installer)" | sha384sum -c - \
+    echo "$(cat installer.sha384sum composer-setup.php)" | sha384sum -c - \
         && \
-    php "./installer" -- \
+    php "composer-setup.php" -- \
         --install-dir="/usr/local/bin" \
         --filename="composer" \
         --version="${COMPOSER_VERSION}" \
         && \
     rm -f \
-        "installer" \
+        "composer-setup.php" \
         "installer.sig"
