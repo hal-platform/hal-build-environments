@@ -57,7 +57,7 @@ RUN curl -LO "https://composer.github.io/installer.sig" \
         && \
     curl -LO "https://getcomposer.org/installer" \
         && \
-    echo "$(cat installer.sig installer" | sha384sum -c - \
+    echo "$(cat installer.sig installer)" | sha384sum -c - \
         && \
     php "./installer" -- \
         --install-dir="/usr/local/bin" \
