@@ -27,7 +27,7 @@ RUN set -x \
         && \
     tar -xJC "/usr/src/python" --strip-components=1 -f "python.tar.xz" \
         && \
-    rm "python.tar.xz*" \
+    rm python.tar.xz* \
         && \
     cd "/usr/src/python" \
         && \
