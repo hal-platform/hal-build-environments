@@ -1,11 +1,12 @@
 FROM halplatform/hal-build-environments:centos7-buildpack
 
-RUN yum install -y \
-    yum-utils \
-    wget \
-    epel-release \
-        && \
+RUN \
+    yum install -y \
+        yum-utils \
+        wget \
+        epel-release \
         \
+        && \
     rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
         && \
     yum-config-manager -q --enable remi \
@@ -16,32 +17,34 @@ RUN yum install -y \
 # PHP
 ################################################################################
 
-RUN yum install -y \
-    php-fpm \
-    php-cli \
-    \
-    php-bcmath \
-    php-intl \
-    php-mbstring \
-    php-opcache \
-    php-xml \
-    \
-    php-mcrypt \
-    php-openssl \
-    php-pecl-libsodium \
-    \
-    php-pdo \
-    php-mysql \
-    php-mssql \
-    php-pgsql \
-    \
-    php-ldap \
-    php-soap \
-    \
-    php-pecl-apcu \
-    php-pecl-memcache \
-    php-pecl-xdebug \
-    && \
+RUN \
+    yum install -y \
+        php-fpm \
+        php-cli \
+        \
+        php-bcmath \
+        php-intl \
+        php-mbstring \
+        php-opcache \
+        php-xml \
+        \
+        php-mcrypt \
+        php-openssl \
+        php-pecl-libsodium \
+        \
+        php-pdo \
+        php-mysql \
+        php-mssql \
+        php-pgsql \
+        \
+        php-ldap \
+        php-soap \
+        \
+        php-pecl-apcu \
+        php-pecl-memcache \
+        php-pecl-xdebug \
+        \
+        && \
     yum clean all
 
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini
