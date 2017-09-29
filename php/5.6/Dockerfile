@@ -51,14 +51,13 @@ RUN yum install -y \
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini
 
 ENV COMPOSER_NO_INTERACTION 1
-ENV COMPOSER_VERSION        1.2.2
+ENV COMPOSER_VERSION        1.5.2
 
 RUN curl -LO "https://composer.github.io/installer.sig" \
         && \
     curl -LO "https://getcomposer.org/installer" \
         && \
-    echo "$(cat installer.sig .installer" \
-        | sha384sum -c - \
+    echo "$(cat installer.sig installer" | sha384sum -c - \
         && \
     php "./installer" -- \
         --install-dir="/usr/local/bin" \
