@@ -1,9 +1,5 @@
 FROM halplatform/hal-build-environments:centos7-buildpack
 
-################################################################################
-# Import Remi Repository
-################################################################################
-
 RUN yum install -y \
     yum-utils \
     wget \
@@ -49,6 +45,10 @@ RUN yum install -y \
     yum clean all
 
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini
+
+################################################################################
+# Composer
+################################################################################
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
