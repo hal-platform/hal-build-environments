@@ -11,7 +11,7 @@ ENV ERLANG_VERSION 20.1
 ENV ELIXIR_VERSION 1.5.1
 
 ENV ELIXIR_DOWNLOAD_URL="https://github.com/elixir-lang/elixir/releases/download/v${ELIXIR_VERSION}/Precompiled.zip"
-ENV ELIXIR_DOWNLOAD_SHA256="9a903dc71800c6ce8f4f4b84a1e4849e3433e68243958fd6413a144857b61f6a"
+ENV ELIXIR_DOWNLOAD_SHA256="84af6eb4cb68d0f60b3edf4e275eb024f8eb8cccae91b18c2bbbc4b70a88934f"
 
 RUN yum --assumeyes install \
         "esl-erlang-${ERLANG_VERSION}" \
