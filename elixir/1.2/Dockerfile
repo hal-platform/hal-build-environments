@@ -10,7 +10,7 @@ RUN rpm -Uvh \
 ENV ERLANG_VERSION 18.3
 ENV ELIXIR_VERSION 1.2.6
 
-ENV ELIXIR_DOWNLOAD_URL="https://github.com/elixir-lang/elixir/releases/download/${ELIXIR_VERSION#*@}/Precompiled.zip"
+ENV ELIXIR_DOWNLOAD_URL="https://github.com/elixir-lang/elixir/releases/download/${ELIXIR_VERSION}/Precompiled.zip"
 ENV ELIXIR_DOWNLOAD_SHA256="bb4324eb7c9568fa30f0f2ed3c1b86ebbd5251f7c820f1beb0e5eed5fb8a9729"
 
 RUN yum install -y \
