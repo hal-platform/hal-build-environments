@@ -28,7 +28,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 
 #### Tools
 
-- `awscli1.11` ([tools/awscli//1.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.11/Dockerfile))
+- `awscli1.11` ([tools/awscli/1.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.11/Dockerfile))
 
 #### Elixir
 
