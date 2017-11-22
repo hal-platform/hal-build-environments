@@ -27,6 +27,7 @@ RUN \
         php-mbstring \
         php-opcache \
         php-xml \
+        php-zip \
         \
         php-openssl \
         php-pecl-libsodium \

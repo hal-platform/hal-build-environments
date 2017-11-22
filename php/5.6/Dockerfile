@@ -27,6 +27,7 @@ RUN \
         php-mbstring \
         php-opcache \
         php-xml \
+        php-zip \
         \
         php-mcrypt \
         php-openssl \
