@@ -48,6 +48,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `php5.6-centos7` ([php/5.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/5.6/Dockerfile))
 - `php7.0-centos7` ([php/7.0/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.0/Dockerfile))
 - `php7.1-centos7` ([php/7.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.1/Dockerfile))
+- `php7.2-centos7` ([php/7.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.2/Dockerfile))
 
 #### Dotnet Core
 
