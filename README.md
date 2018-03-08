@@ -29,6 +29,8 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 #### Tools
 
 - `awscli1.11` ([tools/awscli/1.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.11/Dockerfile))
+- `awscli1.14` ([tools/awscli/1.14/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.14/Dockerfile))
+
 
 #### Elixir
 
@@ -36,6 +38,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `elixir1.3-centos7` ([elixir/1.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.3/Dockerfile)) (Erlang 19.3)
 - `elixir1.4-centos7` ([elixir/1.4/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.4/Dockerfile)) (Erlang 19.3)
 - `elixir1.5-centos7` ([elixir/1.5/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.5/Dockerfile)) (Erlang 20.1)
+- `elixir1.6-centos7` ([elixir/1.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/elixir/1.6/Dockerfile)) (Erlang 20.2)
 
 #### Node
 
