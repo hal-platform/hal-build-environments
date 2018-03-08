@@ -23,6 +23,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 #### Linux
 
 - `debian8-buildpack` ([linux/debian8/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian8/buildpack/Dockerfile))
+- `debian9-buildpack` ([linux/debian9/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian9/buildpack/Dockerfile))
 - `centos6-buildpack` ([linux/centos6/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos6/buildpack/Dockerfile)) (Centos 6.9)
 - `centos7-buildpack` ([linux/centos7/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos7/buildpack/Dockerfile)) (Centos 7.4)
 
