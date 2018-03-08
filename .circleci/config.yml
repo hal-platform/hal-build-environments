@@ -34,7 +34,9 @@ workflows:
     version: 2
     pipeline:
         jobs:
-            - fetch_code
+            - fetch_code:
+                filters:
+                    only: derpyderp
 
             - build_elixir_12:
                 requires: [ fetch_code ]
