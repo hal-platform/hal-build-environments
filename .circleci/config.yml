@@ -1,0 +1,73 @@
+version: 2
+
+defaults: &defaults
+    working_directory: '~/project'
+    docker:
+        - image: 'docker:17.05.0-ce-git'
+
+attach_workspace: &attach_workspace
+    attach_workspace:
+        at: '.'
+
+persist_workspace: &persist_workspace
+    persist_to_workspace:
+        root: '.'
+        paths: [ '.' ]
+
+build_image: &build_image
+    <<: *defaults
+    steps:
+        - *attach_workspace
+        - setup_remote_docker
+        - run: 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+        - run:
+            name: 'Build docker image'
+            command: |
+                cd "${DOCKER_PATH}" && \
+                docker build -t "halplatform/hal-build-environments:${DOCKER_TAG}" .
+        - run:
+            name: 'Push docker image'
+            command: |
+                docker push "halplatform/hal-build-environments:${DOCKER_TAG}"
+
+workflows:
+    version: 2
+    pipeline:
+        jobs:
+            - fetch_code
+
+            - build_elixir_12:
+                requires: [ fetch_code ]
+            - build_elixir_13:
+                requires: [ fetch_code ]
+            - build_elixir_14:
+                requires: [ fetch_code ]
+            - build_elixir_15:
+                requires: [ fetch_code ]
+            - build_elixir_16:
+                requires: [ fetch_code ]
+
+
+jobs:
+
+    fetch_code:
+        <<: *defaults
+        steps:
+            - checkout
+            - *persist_workspace
+
+    build_elixir_12:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './elixir/1.2', DOCKER_TAG: 'elixir1.2-centos7' } ]
+    build_elixir_13:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './elixir/1.3', DOCKER_TAG: 'elixir1.3-centos7' } ]
+    build_elixir_14:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './elixir/1.4', DOCKER_TAG: 'elixir1.4-centos7' } ]
+    build_elixir_15:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './elixir/1.5', DOCKER_TAG: 'elixir1.5-centos7' } ]
+    build_elixir_16:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './elixir/1.6', DOCKER_TAG: 'elixir1.6-centos7' } ]
