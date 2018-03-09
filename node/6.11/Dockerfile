@@ -1,9 +1,9 @@
 FROM halplatform/hal-build-environments:centos7-buildpack
 
-ENV NODE_VERSION "6.11.3"
+ENV NODE_VERSION "6.13.1"
 ENV NODE_SETUP   "setup_6.x"
 ENV NODE_URL     "https://rpm.nodesource.com/${NODE_SETUP}"
-ENV YARN_VERSION "1.1.0"
+ENV YARN_VERSION "1.5.1"
 
 RUN curl -sLO "${NODE_URL}" \
         && \
