@@ -40,7 +40,7 @@ workflows:
         jobs:
             - fetch_code:
                 filters:
-                    only: derpyderp
+                    only: master
 
             - build_linux_centos6:
                 requires: [ fetch_code ]
