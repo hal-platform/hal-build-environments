@@ -14,6 +14,10 @@ persist_workspace: &persist_workspace
         root: '.'
         paths: [ '.' ]
 
+fan_in: &fan_in
+    <<: *defaults
+    steps: [ { run: 'whoami' } ]
+
 build_image: &build_image
     <<: *defaults
     steps:
@@ -38,16 +42,75 @@ workflows:
                 filters:
                     only: derpyderp
 
+            - build_linux_centos6:
+                requires: [ fetch_code ]
+            - build_linux_centos7:
+                requires: [ fetch_code ]
+            - build_linux_debian8:
+                requires: [ fetch_code ]
+            - build_linux_debian9:
+                requires: [ fetch_code ]
+
+            - fan_in_1:
+                requires: [ build_linux_centos6, build_linux_centos7, build_linux_debian8, build_linux_debian9 ]
+
+            - build_awscli1_11:
+                requires: [ fan_in_1 ]
+            - build_awscli1_14:
+                requires: [ fan_in_1 ]
+
+            - build_dotnet11:
+                requires: [ fan_in_1 ]
+            - build_dotnet20:
+                requires: [ fan_in_1 ]
+
+            - fan_in_2:
+                requires: [ build_awscli1_11, build_awscli1_14, build_dotnet11, build_dotnet20 ]
+
+            - build_python_27_debian8:
+                requires: [ fan_in_2 ]
+            - build_python_27_centos7:
+                requires: [ fan_in_2 ]
+            - build_python_36_centos7:
+                requires: [ fan_in_2 ]
+            - build_python_36_debian8:
+                requires: [ fan_in_2 ]
+
+            - fan_in_3:
+                requires: [ build_python_27_debian8, build_python_27_centos7, build_python_36_centos7, build_python_36_debian8 ]
+
+            - build_node_48:
+                requires: [ fan_in_3 ]
+            - build_node_613:
+                requires: [ fan_in_3 ]
+            - build_node_810:
+                requires: [ fan_in_3 ]
+
+            - fan_in_4:
+                requires: [ build_node_48, build_node_613, build_node_810, ]
+
+            - build_php_56:
+                requires: [ fan_in_4 ]
+            - build_php_70:
+                requires: [ fan_in_4 ]
+            - build_php_71:
+                requires: [ fan_in_4 ]
+            - build_php_72:
+                requires: [ fan_in_4 ]
+
+            - fan_in_5:
+                requires: [ build_php_56, build_php_70, build_php_71, build_php_72 ]
+
             - build_elixir_12:
-                requires: [ fetch_code ]
+                requires: [ fan_in_5 ]
             - build_elixir_13:
-                requires: [ fetch_code ]
+                requires: [ fan_in_5 ]
             - build_elixir_14:
-                requires: [ fetch_code ]
+                requires: [ fan_in_5 ]
             - build_elixir_15:
-                requires: [ fetch_code ]
+                requires: [ fan_in_5 ]
             - build_elixir_16:
-                requires: [ fetch_code ]
+                requires: [ fan_in_5 ]
 
 
 jobs:
@@ -57,6 +120,84 @@ jobs:
         steps:
             - checkout
             - *persist_workspace
+
+    build_linux_centos6:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/centos6/buildpack', DOCKER_TAG: 'centos6-buildpack' } ]
+    build_linux_centos7:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/centos6/buildpack', DOCKER_TAG: 'centos6-buildpack' } ]
+    build_linux_debian8:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/debian8/buildpack', DOCKER_TAG: 'debian8-buildpack' } ]
+    build_linux_debian9:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/debian9/buildpack', DOCKER_TAG: 'debian9-buildpack' } ]
+
+    fan_in_1:
+        <<: *fan_in
+
+    build_awscli1_11:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/awscli/1.11', DOCKER_TAG: 'awscli1.11' } ]
+    build_awscli1_14:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/awscli/1.14', DOCKER_TAG: 'awscli1.14' } ]
+
+    build_dotnet11:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './dotnet/1.1', DOCKER_TAG: 'dotnet1.1-debian8' } ]
+    build_dotnet20:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './dotnet/2.0', DOCKER_TAG: 'dotnet2.0-debian8' } ]
+
+    fan_in_2:
+        <<: *fan_in
+
+    build_python_27_debian8:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './python/2.7-debian', DOCKER_TAG: 'python2.7-debian8' } ]
+    build_python_27_centos7:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './python/2.7', DOCKER_TAG: 'python2.7-centos7' } ]
+    build_python_36_centos7:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './python/3.6-debian', DOCKER_TAG: 'python3.6-debian8' } ]
+    build_python_36_debian8:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './python/3.6', DOCKER_TAG: 'python3.6-centos7' } ]
+
+    fan_in_3:
+        <<: *fan_in
+
+    build_node_48:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './node/4.8', DOCKER_TAG: 'node4.8-centos7' } ]
+    build_node_613:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './node/6.13', DOCKER_TAG: 'node6.13-centos7' } ]
+    build_node_810:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './node/8.10', DOCKER_TAG: 'node8.10-centos7' } ]
+
+    fan_in_4:
+        <<: *fan_in
+
+    build_php_56:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/5.6', DOCKER_TAG: 'php5.6-centos7' } ]
+    build_php_70:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.0', DOCKER_TAG: 'php7.0-centos7' } ]
+    build_php_71:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.1', DOCKER_TAG: 'php7.1-centos7' } ]
+    build_php_72:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.2', DOCKER_TAG: 'php7.2-centos7' } ]
+
+    fan_in_5:
+        <<: *fan_in
 
     build_elixir_12:
         <<: *build_image
