@@ -14,6 +14,8 @@ No! All containers for designed for robust build environments. That means many d
 
 Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and 2.x.
 
+> **Note:** Windows builds are not automated as no CI platform currently supports windows docker containers
+
 - `vs2015` ([windows/vs2015/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)) (Windows Server Core - Visual Studio 2015)
 - `vs2017` ([windows/vs2017/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)) (Windows Server Core - Visual Studio 2017)
 
