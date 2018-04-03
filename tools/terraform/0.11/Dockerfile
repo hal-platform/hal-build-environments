@@ -31,7 +31,6 @@ RUN \
     && chmod +x "terraform" \
     && mv "terraform" "/usr/bin/terraform"
 
-
 ENV TERRAGRUNT_VERSION 1.14.6
 RUN \
     curl -Lo "terragrunt" "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64" \
