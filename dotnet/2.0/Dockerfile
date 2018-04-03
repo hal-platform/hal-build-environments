@@ -16,25 +16,28 @@ RUN \
         libunwind8 \
         libuuid1 \
         zlib1g \
+        \
+        libunwind8 \
+        gettext \
+        apt-transport-https \
         && \
     rm -rf /var/lib/apt/lists/*
 
-# Install .NET Core SDK
-ENV DOTNET_SDK_VERSION      "2.0.0"
-ENV DOTNET_SDK_DOWNLOAD_URL "https://dotnetcli.blob.core.windows.net/dotnet/Sdk/${DOTNET_SDK_VERSION}/dotnet-sdk-${DOTNET_SDK_VERSION}-linux-x64.tar.gz"
-ENV DOTNET_SDK_DOWNLOAD_SHA "E457F3A5685382F7F24851A2E76EDBE75B575948C8A7F43220F159BA29C329A5008BBE7220C18DFB31EAF0398FC72177B1948B65E19B34ED0D907EFB459CF4B0"
+ENV DOTNET_SDK_VERSION "2.0.3"
+ENV POWERSHELL_VERSION "6.0.2"
 
-RUN curl -SL "${DOTNET_SDK_DOWNLOAD_URL}" --output dotnet.tar.gz \
+RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
-    echo "${DOTNET_SDK_DOWNLOAD_SHA} dotnet.tar.gz" | sha512sum -c - \
+    echo 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-jessie-prod jessie main' > "/etc/apt/sources.list.d/microsoft.list" \
         && \
-    mkdir -p /usr/share/dotnet \
+    apt-get update \
         && \
-    tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
+apt-cache madison powershell && \
+    apt-get install -y --no-install-recommends \
+        "dotnet-sdk-${DOTNET_SDK_VERSION}" \
+        "powershell=${POWERSHELL_VERSION}-1.debian.8" \
         && \
-    rm dotnet.tar.gz \
-        && \
-    ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+    rm -rf /var/lib/apt/lists/*
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
