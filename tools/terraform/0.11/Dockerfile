@@ -21,7 +21,7 @@ RUN \
     && chmod +x "yq" \
     && mv "yq" "/usr/bin/yq"
 
-ENV TERRAFORM_VERSION 1.11.5
+ENV TERRAFORM_VERSION 0.11.5
 RUN \
     curl -Lo "terraform.zip" "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
     \
@@ -31,7 +31,7 @@ RUN \
     && chmod +x "terraform" \
     && mv "terraform" "/usr/bin/terraform"
 
-ENV TERRAGRUNT_VERSION 1.14.6
+ENV TERRAGRUNT_VERSION 0.14.6
 RUN \
     curl -Lo "terragrunt" "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64" \
     \
