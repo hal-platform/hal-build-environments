@@ -23,7 +23,7 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION "2.0.3"
+ENV DOTNET_SDK_VERSION "2.1.101"
 ENV POWERSHELL_VERSION "6.0.2"
 
 RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \

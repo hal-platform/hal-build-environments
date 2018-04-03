@@ -59,13 +59,18 @@ workflows:
             - build_awscli1_14:
                 requires: [ fan_in_1 ]
 
+            - build_terraform0_11:
+                requires: [ fan_in_1 ]
+
             - build_dotnet11:
                 requires: [ fan_in_1 ]
             - build_dotnet20:
                 requires: [ fan_in_1 ]
+            - build_dotnet21:
+                requires: [ fan_in_1 ]
 
             - fan_in_2:
-                requires: [ build_awscli1_11, build_awscli1_14, build_dotnet11, build_dotnet20 ]
+                requires: [ build_awscli1_11, build_awscli1_14, build_terraform0_11, build_dotnet11, build_dotnet20, build_dotnet21 ]
 
             - build_python_27_debian8:
                 requires: [ fan_in_2 ]
@@ -142,6 +147,9 @@ jobs:
     build_awscli1_14:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/awscli/1.14', DOCKER_TAG: 'awscli1.14' } ]
+    build_terraform0_11:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/terraform/0.11', DOCKER_TAG: 'terraform0.11' } ]
 
     build_dotnet11:
         <<: *build_image
@@ -149,6 +157,9 @@ jobs:
     build_dotnet20:
         <<: *build_image
         environment: [ { DOCKER_PATH: './dotnet/2.0', DOCKER_TAG: 'dotnet2.0-debian8' } ]
+    build_dotnet21:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './dotnet/2.1', DOCKER_TAG: 'dotnet2.1-debian8' } ]
 
     fan_in_2:
         <<: *fan_in
