@@ -1,6 +1,6 @@
 FROM python:3.6.2-jessie
 
-ENV AWSCLI_VERSION 1.14.52
+ENV AWSCLI_VERSION 1.14.69
 RUN \
     apt-get update \
         && \
