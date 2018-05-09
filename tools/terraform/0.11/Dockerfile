@@ -1,6 +1,6 @@
 FROM python:3.6.2-jessie
 
-ENV AWSCLI_VERSION 1.14.69
+ENV AWSCLI_VERSION 1.15.16
 RUN \
     apt-get update \
         && \
@@ -21,7 +21,7 @@ RUN \
     && chmod +x "yq" \
     && mv "yq" "/usr/bin/yq"
 
-ENV TERRAFORM_VERSION 0.11.5
+ENV TERRAFORM_VERSION 0.11.7
 RUN \
     curl -Lo "terraform.zip" "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
     \
@@ -31,7 +31,7 @@ RUN \
     && chmod +x "terraform" \
     && mv "terraform" "/usr/bin/terraform"
 
-ENV TERRAGRUNT_VERSION 0.14.6
+ENV TERRAGRUNT_VERSION 0.14.10
 RUN \
     curl -Lo "terragrunt" "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64" \
     \
