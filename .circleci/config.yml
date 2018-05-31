@@ -62,14 +62,14 @@ workflows:
                 requires: [ fan_in_1 ]
             - build_dotnet20:
                 requires: [ fan_in_1 ]
-            - build_dotnet21:
-                requires: [ fan_in_1 ]
+            # - build_dotnet21:
+                # requires: [ fan_in_1 ]
 
             - fan_in_2:
                 requires:
                     - build_dotnet11
                     - build_dotnet20
-                    - build_dotnet21
+                    # - build_dotnet21
 
             - build_awscli1_11:
                 requires: [ fan_in_2 ]
