@@ -28,13 +28,14 @@ ENV POWERSHELL_VERSION "6.0.2"
 
 RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
-    echo 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-jessie-prod jessie main' > "/etc/apt/sources.list.d/microsoft.list" \
+    echo 'deb [arch=amd64] https://packages.microsoft.com/debian/8/prod jessie main' > "/etc/apt/sources.list.d/microsoft.list" \
         && \
     apt-get update \
         && \
 apt-cache madison powershell && \
     apt-get install -y --no-install-recommends \
         "dotnet-sdk-${DOTNET_SDK_VERSION}" \
+        "dotnet-host=${DOTNET_SDK_VERSION}-1" \
         "powershell=${POWERSHELL_VERSION}-1.debian.8" \
         && \
     rm -rf /var/lib/apt/lists/*
