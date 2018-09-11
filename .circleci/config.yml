@@ -114,12 +114,15 @@ workflows:
                 requires: [ fan_in_4 ]
             - build_node_810:
                 requires: [ fan_in_4 ]
+            - build_node_1010:
+                requires: [ fan_in_4 ]
 
             - fan_in_5:
                 requires:
                     - build_node_48
                     - build_node_613
                     - build_node_810
+                    - build_node_1010
 
             - build_php_56:
                 requires: [ fan_in_5 ]
@@ -229,6 +232,9 @@ jobs:
     build_node_810:
         <<: *build_image
         environment: [ { DOCKER_PATH: './node/8.10', DOCKER_TAG: 'node8.10-centos7' } ]
+    build_node_1010:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './node/10.10', DOCKER_TAG: 'node8.10-debian9' } ]
 
     fan_in_5:
         <<: *fan_in
