@@ -37,7 +37,9 @@ apt-cache madison powershell && \
 apt-cache madison dotnet-host && \
     apt-get install -y \
         "dotnet-sdk-${DOTNET_SDK_VERSION}=${DOTNET_PACKAGE_VERSION}-1" \
-        "dotnet-host=${DOTNET_SDK_VERSION}.4-1" \
+        "dotnet-host=${DOTNET_SDK_VERSION}.6-1" \
+        "dotnet-runtime-${DOTNET_SDK_VERSION}" \
+        "aspnetcore-runtime-${DOTNET_SDK_VERSION}" \
         "powershell=${POWERSHELL_VERSION}-1.debian.8" \
         && \
     rm -rf /var/lib/apt/lists/*
