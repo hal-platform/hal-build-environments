@@ -1,4 +1,4 @@
-FROM halplatform/hal-build-environments:debian8-buildpack
+FROM halplatform/hal-build-environments:debian9-buildpack
 
 # Install .NET CLI dependencies
 RUN \
@@ -9,27 +9,23 @@ RUN \
         libcurl3 \
         libgcc1 \
         libgssapi-krb5-2 \
-        libicu52 \
+        libicu57 \
         liblttng-ust0 \
-        libssl1.0.0 \
         libstdc++6 \
-        libunwind8 \
-        libuuid1 \
         zlib1g \
         \
-        libunwind8 \
         gettext \
         apt-transport-https \
         && \
     rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION "2.1"
-ENV DOTNET_PACKAGE_VERSION "2.1.300"
-ENV POWERSHELL_VERSION "6.0.2"
+ENV DOTNET_SDK_VERSION "2.2"
+ENV DOTNET_PACKAGE_VERSION "2.2.102"
+ENV POWERSHELL_VERSION "6.1.1"
 
 RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
-    echo 'deb [arch=amd64] https://packages.microsoft.com/debian/8/prod jessie main' > "/etc/apt/sources.list.d/microsoft.list" \
+    echo 'deb [arch=amd64] https://packages.microsoft.com/debian/9/prod stretch main' > "/etc/apt/sources.list.d/microsoft.list" \
         && \
     apt-get update \
         && \
@@ -37,10 +33,8 @@ apt-cache madison powershell && \
 apt-cache madison dotnet-host && \
     apt-get install -y \
         "dotnet-sdk-${DOTNET_SDK_VERSION}=${DOTNET_PACKAGE_VERSION}-1" \
-        "dotnet-host=${DOTNET_SDK_VERSION}.6-1" \
-        "dotnet-runtime-${DOTNET_SDK_VERSION}" \
-        "aspnetcore-runtime-${DOTNET_SDK_VERSION}" \
-        "powershell=${POWERSHELL_VERSION}-1.debian.8" \
+        "dotnet-host=${DOTNET_SDK_VERSION}.1-1" \
+        "powershell=${POWERSHELL_VERSION}-1.debian.9" \
         && \
     rm -rf /var/lib/apt/lists/*
 

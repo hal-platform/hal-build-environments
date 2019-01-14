@@ -64,12 +64,15 @@ workflows:
                 requires: [ fan_in_1 ]
             - build_dotnet21:
                 requires: [ fan_in_1 ]
+            - build_dotnet22:
+                requires: [ fan_in_1 ]
 
             - fan_in_2:
                 requires:
                     - build_dotnet11
                     - build_dotnet20
                     - build_dotnet21
+                    - build_dotnet22
 
             - build_awscli1_11:
                 requires: [ fan_in_2 ]
@@ -132,6 +135,8 @@ workflows:
                 requires: [ fan_in_5 ]
             - build_php_72:
                 requires: [ fan_in_5 ]
+            - build_php_73:
+                requires: [ fan_in_5 ]
 
             - fan_in_6:
                 requires:
@@ -139,6 +144,7 @@ workflows:
                     - build_php_70
                     - build_php_71
                     - build_php_72
+                    - build_php_73
 
             - build_elixir_12:
                 requires: [ fan_in_6 ]
@@ -184,6 +190,9 @@ jobs:
     build_dotnet21:
         <<: *build_image
         environment: [ { DOCKER_PATH: './dotnet/2.1', DOCKER_TAG: 'dotnet2.1-debian8' } ]
+    build_dotnet22:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './dotnet/2.2', DOCKER_TAG: 'dotnet2.2-debian9' } ]
 
     fan_in_2:
         <<: *fan_in
@@ -251,6 +260,10 @@ jobs:
     build_php_72:
         <<: *build_image
         environment: [ { DOCKER_PATH: './php/7.2', DOCKER_TAG: 'php7.2-centos7' } ]
+    build_php_73:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.3', DOCKER_TAG: 'php7.3-debian9' } ]
+
 
     fan_in_6:
         <<: *fan_in
