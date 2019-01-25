@@ -1,0 +1,6 @@
+jobs:
+  - job: Windows
+    pool:
+      vmImage: 'win1803'
+    steps:
+      - script: echo hello from Windows
