@@ -1,6 +1,20 @@
+trigger:
+  - 'master'
+  - 'azure-build'
+
 jobs:
-  - job: Windows
+  -
+    job: Windows
     pool:
       vmImage: 'win1803'
+
     steps:
-      - script: echo hello from Windows
+      - checkout: self
+      - script: echo 'hello from Windows'
+      - bash: |
+          ls -hal
+      - bash: |
+          cd windows/vs2015-server2019
+          docker images
+          docker build -t testing .
+          docker images
