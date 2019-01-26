@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
+#Install-Module VSSetup -Force
+#(Get-VSSetupInstance | Select-VSSetupInstance -Product *).packages
+
 # We use the same configuration as Microsoft's VSTS agents
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
 
