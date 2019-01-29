@@ -9,6 +9,7 @@ FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
 
 RUN Install-PackageProvider -Name chocolatey -RequiredVersion 2.8.5.130 -Force
 ENV chocolateyUseWindowsCompression=false
+RUN [Environment]::SetEnvironmentVariable('PATH', $env:path+';'+$env:ChocolateyInstall + '\bin;');
 RUN choco config set cachelocation C:\chococache
 
 RUN Install-Package git -Force
