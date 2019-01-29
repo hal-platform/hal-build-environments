@@ -1,10 +1,10 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
+# See https://github.com/Microsoft/dotnet-framework-docker/blob/33531c3bae718f970b704730703ba1fb0f3dff80/4.7.2/sdk/windowsservercore-ltsc2019/Dockerfile
+
+# Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-#Install-Module VSSetup -Force
-#(Get-VSSetupInstance | Select-VSSetupInstance -Product *).packages
-
-# We use the same configuration as Microsoft's VSTS agents
+# We use a similar configuration as Microsoft's VSTS agents (this is deprecated)
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
 
 ENV chocolateyUseWindowsCompression=false
@@ -23,46 +23,6 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 3600 \
-    \
-    && rmdir /S /Q C:\chococache
-
-RUN choco install \
-    visualstudio2017enterprise \
-    --package-parameters "--passive --locale en-US --includeOptional" \
-    --confirm \
-    --limit-output \
-    --timeout 3600 \
-    \
-    && rmdir /S /Q C:\chococache
-
-RUN choco install \
-    visualstudio2017-workload-netcoretools \
-    visualstudio2017-workload-netweb \
-    --confirm \
-    --limit-output \
-    --timeout 3600 \
-    --ignore-package-exit-codes \
-    --package-parameters "--includeOptional" \
-    \
-    && rmdir /S /Q C:\chococache
-
-# Common node tools
-RUN npm install gulp -g && \
-    npm install grunt -g && \
-    npm install -g less && \
-    npm install phantomjs-prebuilt -g
-
-# Install NuGet, .NET Framework 4.5, 4.6, 4.7
-RUN choco install \
-    nuget.commandline \
-    netfx-4.7.2-devpack \
-    netfx-4.6.2-devpack \
-    netfx-4.5.2-devpack \
-    netfx-4.0.3-devpack \
-    --confirm \
-    --limit-output \
-    --timeout 1800 \
-    --ignore-package-exit-codes \
     \
     && rmdir /S /Q C:\chococache
 
@@ -95,9 +55,6 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
 # Add Visual Studio tools and dotnet to PATH
 SHELL ["cmd", "/S", "/C"]
 
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio\2017\Enterprise\Common7\IDE"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
 RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 
 # Trigger the population of the local package cache
