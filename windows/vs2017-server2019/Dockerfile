@@ -1,4 +1,7 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
+# See https://github.com/Microsoft/dotnet-framework-docker/blob/33531c3bae718f970b704730703ba1fb0f3dff80/4.7.2/sdk/windowsservercore-ltsc2019/Dockerfile
+
+# Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
 # We use the same configuration as Microsoft's VSTS agents
