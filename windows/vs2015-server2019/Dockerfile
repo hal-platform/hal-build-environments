@@ -7,6 +7,8 @@ FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
 # We use a similar configuration as Microsoft's VSTS agents (this is deprecated)
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
 
+ENV chocolateyUseWindowsCompression=false
+RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 RUN choco config set cachelocation C:\chococache
 
 RUN choco install \
