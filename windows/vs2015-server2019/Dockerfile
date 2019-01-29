@@ -71,6 +71,13 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
+# Install .NET Core 2.2
+ENV DOTNET_DOWNLOAD_URL https://download.visualstudio.microsoft.com/download/pr/c332d70f-6582-4471-96af-4b0c17a616ad/5f3043d4bc506bf91cb89fa90462bb58/dotnet-sdk-2.2.103-win-x64.zip
+
+RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+    Remove-Item -Force dotnet.zip
+
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\MSBuild\14.0\Bin', [EnvironmentVariableTarget]::Machine);
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ID', [EnvironmentVariableTarget]::Machine);
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow', [EnvironmentVariableTarget]::Machine);
@@ -79,8 +86,9 @@ RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program F
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
 
-RUN mkdir C:\warmup; \
-    cd C:\warmup; \
-    dotnet new; \
-    cd ..; \
-    rmdir /S /Q C:\warmup
+RUN dotnet --list-sdks ; \
+    mkdir C:\warmup ; \
+    cd C:\warmup ; \
+    dotnet new ; \
+    cd .. ; \
+    Remove-Item C:\warmup -Force -Recurse
