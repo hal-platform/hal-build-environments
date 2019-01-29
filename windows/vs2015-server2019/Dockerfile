@@ -7,18 +7,25 @@ FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
 # We use a similar configuration as Microsoft's VSTS agents (this is deprecated)
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
 
-RUN Install-PackageProvider -Name chocolatey -RequiredVersion 2.8.5.130 -Force
 ENV chocolateyUseWindowsCompression=false
-RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ChocolateyInstall + '\bin;');
+
+RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
+
+RUN choco feature disable -n=showDownloadProgress
 RUN choco config set cachelocation C:\chococache
 
-RUN Install-Package git -Force
-RUN Install-Package nodejs -Force
-RUN Install-Package jdk8 -Force
-RUN Install-Package curl -Force
-RUN Install-Package maven -Force
-RUN Install-Package gradle -Force
-RUN Install-Package docker -Force
+RUN choco install \
+    git \
+    nodejs \
+    jdk8 \
+    curl \
+    maven \
+    gradle \
+    docker \
+    --confirm \
+    --limit=output \
+    --timeout 3600 \
+    ; Remove-Item C:\chococache  -Recurse -Force
 
 # NOTE: This step takes FOREVER. Be prepared to wait 4+ hours.
 RUN choco install \
@@ -27,16 +34,16 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 81600 \
-    \
-    && rmdir /S /Q C:\chococache
+    ; Remove-Item C:\chococache  -Recurse -Force
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
+RUN Install-PackageProvider -Name chocolatey -RequiredVersion 2.8.5.130 -Force
 
-RUN Install-Package nuget.commandline -Force
-RUN Install-Package netfx-4.0.3-devpack -Force
-RUN Install-Package netfx-4.5.2-devpack -Force
-RUN Install-Package netfx-4.6.2-devpack -Force
-RUN Install-Package netfx-4.7.2-devpack -Force
+RUN Install-Package nuget.commandline -Force -Confirm
+RUN Install-Package netfx-4.0.3-devpack -Force -Confirm
+RUN Install-Package netfx-4.5.2-devpack -Force -Confirm
+RUN Install-Package netfx-4.6.2-devpack -Force -Confirm
+RUN Install-Package netfx-4.7.2-devpack -Force -Confirm
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
