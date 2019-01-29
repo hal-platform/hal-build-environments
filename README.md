@@ -14,10 +14,14 @@ No! All containers for designed for robust build environments. That means many d
 
 Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and 2.x.
 
-> **Note:** Windows builds are not automated as no CI platform currently supports windows docker containers
+> **Note:** Windows builds are not automated as no CI platform currently supports windows docker containers.
+> Windows containers are limited on what versions of windows they can be used with. See
+> [version-compatibility](https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility) for more information.
 
-- `vs2015` ([windows/vs2015/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)) (Windows Server Core - Visual Studio 2015)
-- `vs2017` ([windows/vs2017/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)) (Windows Server Core - Visual Studio 2017)
+- `vs2015` ([windows/vs2015/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015/Dockerfile)) (Windows Server Core 2016 - Visual Studio 2015)
+- `vs2017` ([windows/vs2017/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017/Dockerfile)) (Windows Server Core 2016 - Visual Studio 2017)
+- `vs2015-server2019` ([windows/vs2015-server2019/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2015-server2019/Dockerfile)) (Windows Server Core 2019 - Visual Studio 2015)
+- `vs2017-server2019` ([windows/vs2017-server2019/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/windows/vs2017-server2019/Dockerfile)) (Windows Server Core 2019 - Visual Studio 2017)
 
 > No container contains .NET Framework 3.5.  
 > See https://github.com/Microsoft/dotnet-framework-docker/blob/master/3.5/Dockerfile
