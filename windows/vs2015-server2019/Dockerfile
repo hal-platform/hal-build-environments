@@ -9,7 +9,7 @@ FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
 
 RUN Install-PackageProvider -Name chocolatey -RequiredVersion 2.8.5.130 -Force
 ENV chocolateyUseWindowsCompression=false
-RUN [Environment]::SetEnvironmentVariable('PATH', $env:path+';'+$env:ChocolateyInstall + '\bin;');
+RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ChocolateyInstall + '\bin;');
 RUN choco config set cachelocation C:\chococache
 
 RUN Install-Package git -Force
@@ -64,13 +64,10 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
-# Add Visual Studio tools and dotnet to PATH
-SHELL ["cmd", "/S", "/C"]
-
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\MSBuild\14.0\Bin"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
-RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
+RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ProgramFiles(x86) + '\MSBuild\14.0\Bin;');
+RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ProgramFiles(x86) + '\Microsoft Visual Studio 14.0\Common7\IDE;');
+RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ProgramFiles(x86) + '\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow;');
+RUN [Environment]::SetEnvironmentVariable('PATH', $Env:path+';'+$Env:ProgramFiles(x86) + '\dotnet;');
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
