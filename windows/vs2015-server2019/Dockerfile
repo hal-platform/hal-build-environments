@@ -71,16 +71,16 @@ RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\MSBuild\14.0\Bin"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE"
-RUN setx /M PATH "%PATH%;%ProgramFiles(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
-RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
+RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\MSBuild\14.0\Bin', [EnvironmentVariableTarget]::Machine);
+RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ID', [EnvironmentVariableTarget]::Machine);
+RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow', [EnvironmentVariableTarget]::Machine);
+RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files\dotnet', [EnvironmentVariableTarget]::Machine);
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
 
-RUN mkdir C:\warmup \
-    && cd C:\warmup \
-    && dotnet new \
-    && cd .. \
-    && rmdir /S /Q C:\warmup
+RUN mkdir C:\warmup; \
+    cd C:\warmup; \
+    dotnet new; \
+    cd ..; \
+    rmdir /S /Q C:\warmup
