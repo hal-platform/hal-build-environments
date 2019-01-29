@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
+# See https://github.com/Microsoft/dotnet-framework-docker/blob/33531c3bae718f970b704730703ba1fb0f3dff80/4.7.2/sdk/windowsservercore-ltsc2019/Dockerfile
+
+# Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-# We use the same configuration as Microsoft's VSTS agents
+# We use a similar configuration as Microsoft's VSTS agents (this is deprecated)
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
-
-ENV chocolateyUseWindowsCompression=false
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
 RUN choco config set cachelocation C:\chococache
 
@@ -32,12 +32,6 @@ RUN choco install \
     --timeout 81600 \
     \
     && rmdir /S /Q C:\chococache
-
-# Common node tools
-RUN npm install gulp -g && \
-    npm install grunt -g && \
-    npm install -g less && \
-    npm install phantomjs-prebuilt -g
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
 RUN choco install \
