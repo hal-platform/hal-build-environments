@@ -7,23 +7,17 @@ FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
 # We use a similar configuration as Microsoft's VSTS agents (this is deprecated)
 # https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
 
+RUN Install-PackageProvider -Name chocolatey -RequiredVersion 2.8.5.130 -Force
 ENV chocolateyUseWindowsCompression=false
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 RUN choco config set cachelocation C:\chococache
 
-RUN choco install \
-    git  \
-    nodejs \
-    jdk8 \
-    curl \
-    maven \
-    gradle \
-    docker \
-    --confirm \
-    --limit-output \
-    --timeout 3600 \
-    \
-    && rmdir /S /Q C:\chococache
+RUN Install-Package git -Force
+RUN Install-Package nodejs -Force
+RUN Install-Package jdk8 -Force
+RUN Install-Package curl -Force
+RUN Install-Package maven -Force
+RUN Install-Package gradle -Force
+RUN Install-Package docker -Force
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
