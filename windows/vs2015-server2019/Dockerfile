@@ -79,7 +79,7 @@ RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
     Remove-Item -Force dotnet.zip
 
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\MSBuild\14.0\Bin', [EnvironmentVariableTarget]::Machine);
-RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ID', [EnvironmentVariableTarget]::Machine);
+RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE', [EnvironmentVariableTarget]::Machine);
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow', [EnvironmentVariableTarget]::Machine);
 RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files\dotnet', [EnvironmentVariableTarget]::Machine);
 
