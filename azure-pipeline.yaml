@@ -14,5 +14,5 @@ jobs:
       - bash: 'ls -hal && docker images'
       - bash: |
           cd windows/vs2015-server2019
-          docker build -t testing .
+          docker build --isolation=hyperv -t testing .
       - bash: 'docker images'
