@@ -11,10 +11,8 @@ jobs:
     steps:
       - checkout: self
       - script: echo 'hello from Windows'
-      - bash: |
-          ls -hal
+      - bash: 'ls -hal && docker images'
       - bash: |
           cd windows/vs2015-server2019
-          docker images
           docker build -t testing .
-          docker images
+      - bash: 'docker images'
