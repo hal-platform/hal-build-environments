@@ -1,5 +1,12 @@
 FROM python:3.6.2-jessie
 
+RUN echo '\
+deb http://deb.debian.org/debian/ jessie main contrib non-free\n\
+deb-src http://deb.debian.org/debian/ jessie main contrib non-free\n\
+deb http://security.debian.org/ jessie/updates main contrib non-free\n\
+deb-src http://security.debian.org/ jessie/updates main contrib non-free\n\
+' > "/etc/apt/sources.list"
+
 ENV AWSCLI_VERSION 1.11.161
 
 RUN \

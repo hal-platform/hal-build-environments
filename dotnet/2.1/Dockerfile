@@ -1,7 +1,5 @@
 FROM halplatform/hal-build-environments:debian8-buildpack
 
-RUN cat "/etc/apt/sources.list"
-
 RUN echo '\
 deb http://deb.debian.org/debian/ jessie main contrib non-free\n\
 deb-src http://deb.debian.org/debian/ jessie main contrib non-free\n\
