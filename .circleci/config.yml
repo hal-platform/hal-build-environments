@@ -107,10 +107,10 @@ workflows:
 
             - fan_in_4:
                 requires:
-                    - build_python_27_debian8
+                    - build_python_27_debian9
                     - build_python_27_centos7
                     - build_python_36_centos7
-                    - build_python_36_debian8
+                    - build_python_36_debian9
 
             - build_node_48:
                 requires: [ fan_in_4 ]
@@ -220,16 +220,16 @@ jobs:
     fan_in_3:
         <<: *fan_in
 
-    build_python_27_debian8:
+    build_python_27_debian9:
         <<: *build_image
-        environment: [ { DOCKER_PATH: './python/2.7-debian', DOCKER_TAG: 'python2.7-debian8' } ]
+        environment: [ { DOCKER_PATH: './python/2.7-debian', DOCKER_TAG: 'python2.7-debian9' } ]
     build_python_27_centos7:
         <<: *build_image
         environment: [ { DOCKER_PATH: './python/2.7', DOCKER_TAG: 'python2.7-centos7' } ]
-    build_python_36_centos7:
+    build_python_36_debian9:
         <<: *build_image
-        environment: [ { DOCKER_PATH: './python/3.6-debian', DOCKER_TAG: 'python3.6-debian8' } ]
-    build_python_36_debian8:
+        environment: [ { DOCKER_PATH: './python/3.6-debian', DOCKER_TAG: 'python3.6-debian9' } ]
+    build_python_36_centos7:
         <<: *build_image
         environment: [ { DOCKER_PATH: './python/3.6', DOCKER_TAG: 'python3.6-centos7' } ]
 
