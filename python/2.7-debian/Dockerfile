@@ -1,1 +1,1 @@
-FROM python:2.7.14-jessie
+FROM python:2.7.14-stretch
