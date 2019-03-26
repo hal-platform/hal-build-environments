@@ -74,7 +74,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 
 #### Python
 
-- `python2.7-debian8` ([python/2.7-debian/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/2.7-debian/Dockerfile))
+- `python2.7-debian9` ([python/2.7-debian/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/2.7-debian/Dockerfile))
 - `python2.7-centos7` ([python/2.7/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/2.7/Dockerfile))
-- `python3.6-debian8` ([python/3.6-debian/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/3.6-debian/Dockerfile))
+- `python3.6-debian9` ([python/3.6-debian/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/3.6-debian/Dockerfile))
 - `python3.6-centos7` ([python/3.6/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/python/3.6/Dockerfile))

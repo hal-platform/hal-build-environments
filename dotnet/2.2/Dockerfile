@@ -20,8 +20,8 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 ENV DOTNET_SDK_VERSION "2.2"
-ENV DOTNET_PACKAGE_VERSION "2.2.102"
-ENV POWERSHELL_VERSION "6.1.1"
+ENV DOTNET_PACKAGE_VERSION "2.2.105"
+ENV POWERSHELL_VERSION "6.1.3"
 
 RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
@@ -29,12 +29,16 @@ RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
     apt-get update \
         && \
-apt-cache madison powershell && \
-apt-cache madison dotnet-host && \
+apt-cache madison "powershell" && \
+apt-cache madison "dotnet-host" && \
+apt-cache madison "dotnet-sdk-${DOTNET_SDK_VERSION}" && \
     apt-get install -y \
         "dotnet-sdk-${DOTNET_SDK_VERSION}=${DOTNET_PACKAGE_VERSION}-1" \
-        "dotnet-host=${DOTNET_SDK_VERSION}.1-1" \
+        "dotnet-host=${DOTNET_SDK_VERSION}.3-1" \
         "powershell=${POWERSHELL_VERSION}-1.debian.9" \
+        "aspnetcore-runtime-${DOTNET_SDK_VERSION}" \
+        "dotnet-runtime-${DOTNET_SDK_VERSION}" \
+        "dotnet-hostfxr-${DOTNET_SDK_VERSION}" \
         && \
     rm -rf /var/lib/apt/lists/*
 

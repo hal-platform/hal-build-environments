@@ -1,5 +1,12 @@
 FROM halplatform/hal-build-environments:debian8-buildpack
 
+RUN echo '\
+deb http://deb.debian.org/debian/ jessie main contrib non-free\n\
+deb-src http://deb.debian.org/debian/ jessie main contrib non-free\n\
+deb http://security.debian.org/ jessie/updates main contrib non-free\n\
+deb-src http://security.debian.org/ jessie/updates main contrib non-free\n\
+' > "/etc/apt/sources.list"
+
 # Install .NET CLI dependencies
 RUN \
     apt-get update \
