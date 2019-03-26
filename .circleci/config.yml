@@ -91,6 +91,7 @@ workflows:
                 requires:
                     - build_awscli1_11
                     - build_awscli1_14
+                    - build_awscli1_16
                     - build_terraform0_11
                     - build_docker17_06
                     - build_docker18_03
@@ -203,6 +204,9 @@ jobs:
     build_awscli1_14:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/awscli/1.14', DOCKER_TAG: 'awscli1.14' } ]
+    build_awscli1_16:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/awscli/1.16', DOCKER_TAG: 'awscli1.16' } ]
     build_terraform0_11:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/terraform/0.11', DOCKER_TAG: 'terraform0.11' } ]
