@@ -1,4 +1,4 @@
-FROM halplatform/hal-build-environments:debian8-buildpack
+FROM halplatform/hal-build-environments:debian9-buildpack
 
 RUN \
     apt-get update \

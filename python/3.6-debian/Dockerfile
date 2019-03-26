@@ -1,1 +1,1 @@
-FROM python:3.6.2-jessie
+FROM python:3.6.2-stretch

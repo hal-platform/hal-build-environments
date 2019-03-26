@@ -1,6 +1,6 @@
 FROM python:3.6.2-stretch
 
-ENV AWSCLI_VERSION 1.14.70
+ENV AWSCLI_VERSION 1.16.131
 
 RUN \
     curl -Lo "yq" "https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64" \

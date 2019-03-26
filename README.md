@@ -37,7 +37,10 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 
 - `awscli1.11` ([tools/awscli/1.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.11/Dockerfile))
 - `awscli1.14` ([tools/awscli/1.14/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.14/Dockerfile))
-
+- `awscli1.16` ([tools/awscli/1.16/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.16/Dockerfile))
+- `terraform0.11` ([tools/terraform/0.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/terraform/0.11/Dockerfile))
+- `docker17.06` ([tools/docker/17.06/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/docker/17.06/Dockerfile))
+- `docker18.03` ([tools/docker/18.03/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/docker/18.03/Dockerfile))
 
 #### Elixir
 
