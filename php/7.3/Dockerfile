@@ -35,6 +35,7 @@ RUN \
         php7.3-pdo \
         php7.3-mysql \
         php7.3-pgsql \
+        php7.3-sqlite3 \
         \
         php7.3-ldap \
         php7.3-soap \
