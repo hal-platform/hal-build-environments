@@ -25,6 +25,7 @@ RUN \
         php7.3-cli \
         \
         php7.3-bcmath \
+        php7.3-curl \
         php7.3-intl \
         php7.3-mbstring \
         php7.3-opcache \
