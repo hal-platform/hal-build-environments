@@ -34,7 +34,7 @@ apt-cache madison "dotnet-host" && \
 apt-cache madison "dotnet-sdk-${DOTNET_SDK_VERSION}" && \
     apt-get install -y \
         "dotnet-sdk-${DOTNET_SDK_VERSION}=${DOTNET_PACKAGE_VERSION}-1" \
-        "dotnet-host=${DOTNET_SDK_VERSION}.4" \
+        "dotnet-host" \
         "powershell=${POWERSHELL_VERSION}-1.debian.9" \
         "aspnetcore-runtime-${DOTNET_SDK_VERSION}" \
         "dotnet-runtime-${DOTNET_SDK_VERSION}" \
