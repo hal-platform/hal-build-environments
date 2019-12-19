@@ -3,7 +3,7 @@ FROM halplatform/hal-build-environments:debian10-buildpack
 ENV NODE_VERSION "12.12.0"
 ENV YARN_VERSION "1.21.1"
 
-ENV NODE_DEB_URL "https://deb.nodesource.com/node_10.x/pool/main/n/nodejs/nodejs_${NODE_VERSION}-1nodesource1_amd64.deb"
+ENV NODE_DEB_URL "https://deb.nodesource.com/node_12.x/pool/main/n/nodejs/nodejs_${NODE_VERSION}-1nodesource1_amd64.deb"
 
 RUN apt-get update && apt-get install -y apt-transport-https \
         && \
