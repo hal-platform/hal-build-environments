@@ -50,6 +50,7 @@ workflows:
             - build_linux_centos7: { requires: [ fetch_code ] }
             - build_linux_debian8: { requires: [ fetch_code ] }
             - build_linux_debian9: { requires: [ fetch_code ] }
+            - build_linux_debian10: { requires: [ fetch_code ] }
 
             - fan_in_1:
                 requires:
@@ -57,6 +58,7 @@ workflows:
                     - build_linux_centos7
                     - build_linux_debian8
                     - build_linux_debian9
+                    - build_linux_debian10
 
             - build_dotnet11: { requires: [ fan_in_1 ] }
             - build_dotnet20: { requires: [ fan_in_1 ] }
@@ -77,6 +79,7 @@ workflows:
             - build_terraform0_12: { requires: [ fan_in_2 ] }
             - build_docker17_06: { requires: [ fan_in_2 ] }
             - build_docker18_03: { requires: [ fan_in_2 ] }
+            - build_docker19_03: { requires: [ fan_in_2 ] }
 
             - fan_in_3:
                 requires:
@@ -87,6 +90,7 @@ workflows:
                     - build_terraform0_12
                     - build_docker17_06
                     - build_docker18_03
+                    - build_docker19_03
 
             - build_python_27_debian9: { requires: [ fan_in_3 ] }
             - build_python_27_centos7: { requires: [ fan_in_3 ] }
@@ -152,6 +156,9 @@ jobs:
     build_linux_debian9:
         <<: *build_image
         environment: [ { DOCKER_PATH: './linux/debian9/buildpack', DOCKER_TAG: 'debian9-buildpack' } ]
+    build_linux_debian10:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/debian10/buildpack', DOCKER_TAG: 'debian10-buildpack' } ]
 
     fan_in_1:
         <<: *fan_in
@@ -193,6 +200,9 @@ jobs:
     build_docker18_03:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/docker/18.03', DOCKER_TAG: 'docker18.03' } ]
+    build_docker19_03:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/docker/19.03', DOCKER_TAG: 'docker19.03' } ]
 
     fan_in_3:
         <<: *fan_in
