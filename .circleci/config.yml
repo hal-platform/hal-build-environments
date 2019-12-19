@@ -7,7 +7,7 @@ executors:
   default_executor:
     working_directory: '~/project'
     docker:
-      - image: 'docker:17.05.0-ce-git'
+      - image: 'circleci/python:3.7'
 
 attach_workspace: &attach_workspace
     attach_workspace:
@@ -27,17 +27,16 @@ build_image: &build_image
     steps:
         - *attach_workspace
         - setup_remote_docker
-        - run: 'echo $0'
         - docker/check:
             docker-username: DOCKER_USER
             docker-password: DOCKER_PASS
         - docker/build:
             path: "${DOCKER_PATH}"
             image: "halplatform/hal-build-environments"
-            tag: "$DOCKER_TAG"
+            tag: "${DOCKER_TAG}"
         - docker/push:
             image: "halplatform/hal-build-environments"
-            tag: "$DOCKER_TAG"
+            tag: "${DOCKER_TAG}"
 
 workflows:
     version: 2
