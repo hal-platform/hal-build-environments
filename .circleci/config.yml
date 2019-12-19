@@ -1,9 +1,13 @@
-version: 2
+version: 2.1
 
-defaults: &defaults
+orbs:
+  docker: circleci/docker@0.5.20
+
+executors:
+  default_executor:
     working_directory: '~/project'
     docker:
-        - image: 'docker:17.05.0-ce-git'
+      - image: 'docker:17.05.0-ce-git'
 
 attach_workspace: &attach_workspace
     attach_workspace:
@@ -15,24 +19,24 @@ persist_workspace: &persist_workspace
         paths: [ '.' ]
 
 fan_in: &fan_in
-    <<: *defaults
+    executor: default_executor
     steps: [ { run: 'whoami' } ]
 
 build_image: &build_image
-    <<: *defaults
+    executor: default_executor
     steps:
         - *attach_workspace
         - setup_remote_docker
-        - run: 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
-        - run:
-            name: 'Build docker image'
-            command: |
-                cd "${DOCKER_PATH}" && \
-                docker build -t "halplatform/hal-build-environments:${DOCKER_TAG}" .
-        - run:
-            name: 'Push docker image'
-            command: |
-                docker push "halplatform/hal-build-environments:${DOCKER_TAG}"
+        - docker/check:
+            docker-username: DOCKER_USER
+            docker-password: DOCKER_PASS
+        - docker/build:
+            path: "${DOCKER_PATH}"
+            image: "halplatform/hal-build-environments"
+            tag: "${DOCKER_TAG}"
+        - docker/push:
+            image: "halplatform/hal-build-environments"
+            tag: "${DOCKER_TAG}"
 
 workflows:
     version: 2
@@ -83,6 +87,8 @@ workflows:
 
             - build_terraform0_11:
                 requires: [ fan_in_2 ]
+            - build_terraform0_12:
+                requires: [ fan_in_2 ]
 
             - build_docker17_06:
                 requires: [ fan_in_2 ]
@@ -95,6 +101,7 @@ workflows:
                     - build_awscli1_14
                     - build_awscli1_16
                     - build_terraform0_11
+                    - build_terraform0_12
                     - build_docker17_06
                     - build_docker18_03
 
@@ -163,7 +170,7 @@ workflows:
 jobs:
 
     fetch_code:
-        <<: *defaults
+        executor: default_executor
         steps:
             - checkout
             - *persist_workspace
@@ -212,6 +219,9 @@ jobs:
     build_terraform0_11:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/terraform/0.11', DOCKER_TAG: 'terraform0.11' } ]
+    build_terraform0_12:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/terraform/0.12', DOCKER_TAG: 'terraform0.12' } ]
     build_docker17_06:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/docker/17.06', DOCKER_TAG: 'docker17.06' } ]
