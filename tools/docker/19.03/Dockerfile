@@ -17,6 +17,6 @@ RUN curl -L "https://download.docker.com/linux/debian/gpg" | apt-key add - \
     apt-get update \
         && \
     apt-get install -y \
-        "docker-ce=${DOCKER_VERSION}~3-0~debian-buster" \
+        "docker-ce=5:${DOCKER_VERSION}~3-0~debian-buster" \
         && \
     rm -rf /var/lib/apt/lists/*
