@@ -27,6 +27,7 @@ build_image: &build_image
     steps:
         - *attach_workspace
         - setup_remote_docker
+        - run: 'echo $0'
         - docker/check:
             docker-username: DOCKER_USER
             docker-password: DOCKER_PASS
