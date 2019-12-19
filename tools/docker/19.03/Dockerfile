@@ -8,7 +8,7 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/*
 
-ENV DOCKER_VERSION "19.03"
+ENV DOCKER_VERSION "19.03.5"
 
 RUN curl -L "https://download.docker.com/linux/debian/gpg" | apt-key add - \
         && \
@@ -17,6 +17,6 @@ RUN curl -L "https://download.docker.com/linux/debian/gpg" | apt-key add - \
     apt-get update \
         && \
     apt-get install -y \
-        "docker-ce=${DOCKER_VERSION}.0~ce-0~debian" \
+        "docker-ce=${DOCKER_VERSION}~3-0~debian-buster" \
         && \
     rm -rf /var/lib/apt/lists/*
