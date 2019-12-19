@@ -40,8 +40,6 @@ RUN curl "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
         && \
     apt-get update \
         && \
-apt-cache madison powershell && \
-apt-cache madison dotnet-host && \
     apt-get install -y \
         "dotnet-sdk-${DOTNET_SDK_VERSION}=${DOTNET_PACKAGE_VERSION}-1" \
         "dotnet-host=${DOTNET_SDK_VERSION}.6-1" \

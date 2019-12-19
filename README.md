@@ -76,6 +76,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `dotnet2.0-debian8` ([dotnet/2.0/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.0/Dockerfile))
 - `dotnet2.1-debian8` ([dotnet/2.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.1/Dockerfile))
 - `dotnet2.2-debian9` ([dotnet/2.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.2/Dockerfile))
+- `dotnet3.1-debian10` ([dotnet/3.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/3.1/Dockerfile))
 
 #### Python
 

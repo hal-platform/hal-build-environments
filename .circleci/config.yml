@@ -64,6 +64,7 @@ workflows:
             - build_dotnet20: { requires: [ fan_in_1 ] }
             - build_dotnet21: { requires: [ fan_in_1 ] }
             - build_dotnet22: { requires: [ fan_in_1 ] }
+            - build_dotnet31: { requires: [ fan_in_1 ] }
 
             - fan_in_2:
                 requires:
@@ -71,6 +72,7 @@ workflows:
                     - build_dotnet20
                     - build_dotnet21
                     - build_dotnet22
+                    - build_dotnet31
 
             - build_awscli1_11: { requires: [ fan_in_2 ] }
             - build_awscli1_14: { requires: [ fan_in_2 ] }
@@ -179,6 +181,9 @@ jobs:
     build_dotnet22:
         <<: *build_image
         environment: [ { DOCKER_PATH: './dotnet/2.2', DOCKER_TAG: 'dotnet2.2-debian9' } ]
+    build_dotnet31:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './dotnet/3.1', DOCKER_TAG: 'dotnet3.1-debian10' } ]
 
     fan_in_2:
         <<: *fan_in
