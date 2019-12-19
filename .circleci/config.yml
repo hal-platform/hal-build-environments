@@ -50,6 +50,7 @@ workflows:
             - build_linux_centos7: { requires: [ fetch_code ] }
             - build_linux_debian8: { requires: [ fetch_code ] }
             - build_linux_debian9: { requires: [ fetch_code ] }
+            - build_linux_debian10: { requires: [ fetch_code ] }
 
             - fan_in_1:
                 requires:
@@ -57,6 +58,7 @@ workflows:
                     - build_linux_centos7
                     - build_linux_debian8
                     - build_linux_debian9
+                    - build_linux_debian10
 
             - build_dotnet11: { requires: [ fan_in_1 ] }
             - build_dotnet20: { requires: [ fan_in_1 ] }
@@ -77,6 +79,7 @@ workflows:
             - build_terraform0_12: { requires: [ fan_in_2 ] }
             - build_docker17_06: { requires: [ fan_in_2 ] }
             - build_docker18_03: { requires: [ fan_in_2 ] }
+            - build_docker19_03: { requires: [ fan_in_2 ] }
 
             - fan_in_3:
                 requires:
@@ -87,6 +90,7 @@ workflows:
                     - build_terraform0_12
                     - build_docker17_06
                     - build_docker18_03
+                    - build_docker19_03
 
             - build_python_27_debian9: { requires: [ fan_in_3 ] }
             - build_python_27_centos7: { requires: [ fan_in_3 ] }
@@ -104,6 +108,7 @@ workflows:
             - build_node_613: { requires: [ fan_in_4 ] }
             - build_node_810: { requires: [ fan_in_4 ] }
             - build_node_1010: { requires: [ fan_in_4 ] }
+            - build_node_1212: { requires: [ fan_in_4 ] }
 
             - fan_in_5:
                 requires:
@@ -111,12 +116,14 @@ workflows:
                     - build_node_613
                     - build_node_810
                     - build_node_1010
+                    - build_node_1212
 
             - build_php_56: { requires: [ fan_in_5 ] }
             - build_php_70: { requires: [ fan_in_5 ] }
             - build_php_71: { requires: [ fan_in_5 ] }
             - build_php_72: { requires: [ fan_in_5 ] }
             - build_php_73: { requires: [ fan_in_5 ] }
+            - build_php_74: { requires: [ fan_in_5 ] }
 
             - fan_in_6:
                 requires:
@@ -125,6 +132,7 @@ workflows:
                     - build_php_71
                     - build_php_72
                     - build_php_73
+                    - build_php_74
 
             - build_elixir_12: { requires: [ fan_in_6 ] }
             - build_elixir_13: { requires: [ fan_in_6 ] }
@@ -152,6 +160,9 @@ jobs:
     build_linux_debian9:
         <<: *build_image
         environment: [ { DOCKER_PATH: './linux/debian9/buildpack', DOCKER_TAG: 'debian9-buildpack' } ]
+    build_linux_debian10:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './linux/debian10/buildpack', DOCKER_TAG: 'debian10-buildpack' } ]
 
     fan_in_1:
         <<: *fan_in
@@ -193,6 +204,9 @@ jobs:
     build_docker18_03:
         <<: *build_image
         environment: [ { DOCKER_PATH: './tools/docker/18.03', DOCKER_TAG: 'docker18.03' } ]
+    build_docker19_03:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './tools/docker/19.03', DOCKER_TAG: 'docker19.03' } ]
 
     fan_in_3:
         <<: *fan_in
@@ -225,6 +239,9 @@ jobs:
     build_node_1010:
         <<: *build_image
         environment: [ { DOCKER_PATH: './node/10.10', DOCKER_TAG: 'node10.10-debian9' } ]
+    build_node_1212:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './node/12.12', DOCKER_TAG: 'node12.12-debian10' } ]
 
     fan_in_5:
         <<: *fan_in
@@ -244,6 +261,9 @@ jobs:
     build_php_73:
         <<: *build_image
         environment: [ { DOCKER_PATH: './php/7.3', DOCKER_TAG: 'php7.3-debian9' } ]
+    build_php_74:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.4', DOCKER_TAG: 'php7.4-debian10' } ]
 
 
     fan_in_6:
