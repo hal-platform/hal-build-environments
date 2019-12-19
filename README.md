@@ -30,6 +30,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 
 - `debian8-buildpack` ([linux/debian8/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian8/buildpack/Dockerfile))
 - `debian9-buildpack` ([linux/debian9/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian9/buildpack/Dockerfile))
+- `debian10-buildpack` ([linux/debian10/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/debian10/buildpack/Dockerfile))
 - `centos6-buildpack` ([linux/centos6/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos6/buildpack/Dockerfile)) (Centos 6.9)
 - `centos7-buildpack` ([linux/centos7/buildpack/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/linux/centos7/buildpack/Dockerfile)) (Centos 7.4)
 
@@ -39,8 +40,10 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `awscli1.14` ([tools/awscli/1.14/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.14/Dockerfile))
 - `awscli1.16` ([tools/awscli/1.16/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/awscli/1.16/Dockerfile))
 - `terraform0.11` ([tools/terraform/0.11/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/terraform/0.11/Dockerfile))
+- `terraform0.12` ([tools/terraform/0.12/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/terraform/0.12/Dockerfile))
 - `docker17.06` ([tools/docker/17.06/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/docker/17.06/Dockerfile))
 - `docker18.03` ([tools/docker/18.03/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/docker/18.03/Dockerfile))
+- `docker19.03` ([tools/docker/19.03/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/tools/docker/19.03/Dockerfile))
 
 #### Elixir
 
@@ -70,7 +73,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `dotnet1.1-debian8` ([dotnet/1.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/1.1/Dockerfile))
 - `dotnet2.0-debian8` ([dotnet/2.0/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.0/Dockerfile))
 - `dotnet2.1-debian8` ([dotnet/2.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.1/Dockerfile))
-- `dotnet2.02-debian9` ([dotnet/2.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.2/Dockerfile))
+- `dotnet2.2-debian9` ([dotnet/2.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/dotnet/2.2/Dockerfile))
 
 #### Python
 
