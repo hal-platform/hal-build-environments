@@ -121,6 +121,7 @@ workflows:
             - build_php_71: { requires: [ fan_in_5 ] }
             - build_php_72: { requires: [ fan_in_5 ] }
             - build_php_73: { requires: [ fan_in_5 ] }
+            - build_php_74: { requires: [ fan_in_5 ] }
 
             - fan_in_6:
                 requires:
@@ -129,6 +130,7 @@ workflows:
                     - build_php_71
                     - build_php_72
                     - build_php_73
+                    - build_php_74
 
             - build_elixir_12: { requires: [ fan_in_6 ] }
             - build_elixir_13: { requires: [ fan_in_6 ] }
@@ -254,6 +256,9 @@ jobs:
     build_php_73:
         <<: *build_image
         environment: [ { DOCKER_PATH: './php/7.3', DOCKER_TAG: 'php7.3-debian9' } ]
+    build_php_74:
+        <<: *build_image
+        environment: [ { DOCKER_PATH: './php/7.4', DOCKER_TAG: 'php7.4-debian10' } ]
 
 
     fan_in_6:
