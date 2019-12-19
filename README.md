@@ -59,6 +59,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `node6.13-centos7` ([node/6.13/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/6.13/Dockerfile))
 - `node8.10-centos7` ([node/8.10/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/8.10/Dockerfile))
 - `node10.10-centos7` ([node/10.10/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/10.10/Dockerfile))
+- `node12.12-centos7` ([node/12.12/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/node/12.12/Dockerfile))
 
 #### PHP
 
@@ -67,6 +68,7 @@ Windows containers have all versions of .NET Framework 4.x and .NET Core 1.x and
 - `php7.1-centos7` ([php/7.1/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.1/Dockerfile))
 - `php7.2-centos7` ([php/7.2/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.2/Dockerfile))
 - `php7.3-debian9` ([php/7.3/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.3/Dockerfile))
+- `php7.4-debian10` ([php/7.4/Dockerfile](https://github.com/hal-platform/hal-build-environments/blob/master/php/7.4/Dockerfile))
 
 #### Dotnet Core
 
