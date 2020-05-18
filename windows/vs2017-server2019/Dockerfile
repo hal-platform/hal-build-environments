@@ -1,16 +1,15 @@
-FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019
+# https://github.com/microsoft/dotnet-framework-docker/blob/7ea28f0c8e9ca278eb5d38c67fe67987e8432ed8/4.8/sdk/windowsservercore-1903/Dockerfile
 # See https://github.com/Microsoft/dotnet-framework-docker/blob/33531c3bae718f970b704730703ba1fb0f3dff80/4.7.2/sdk/windowsservercore-ltsc2019/Dockerfile
 
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-# We use the same configuration as Microsoft's VSTS agents
-# https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
-
 ENV chocolateyUseWindowsCompression=false
 
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
 
+RUN choco feature enable -n=allowGlobalConfirmation
 RUN choco feature disable -n=showDownloadProgress
 RUN choco config set cachelocation C:\chococache
 
@@ -22,7 +21,6 @@ RUN choco install \
     maven \
     gradle \
     docker \
-    --confirm \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
@@ -30,7 +28,6 @@ RUN choco install \
 RUN choco install \
     visualstudio2017enterprise \
     --package-parameters "--passive --locale en-US --includeOptional" \
-    --confirm \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
@@ -38,7 +35,6 @@ RUN choco install \
 RUN choco install \
     visualstudio2017-workload-netcoretools \
     visualstudio2017-workload-netweb \
-    --confirm \
     --limit-output \
     --timeout 3600 \
     --ignore-package-exit-codes \
@@ -51,8 +47,6 @@ RUN choco install \
     netfx-4.7.2-devpack \
     netfx-4.6.2-devpack \
     netfx-4.5.2-devpack \
-    netfx-4.0.3-devpack \
-    --confirm \
     --limit-output \
     --timeout 1800 \
     --ignore-package-exit-codes \
@@ -60,17 +54,17 @@ RUN choco install \
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Install .NET Core 1.0.5, 1.1.2
-ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-win-x64.1.1.2.zip
-ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/E/7/8/E782433E-7737-4E6C-BFBF-290A0A81C3D7/dotnet-dev-win-x64.1.0.4.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
+# Targeting Packs
+RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ `
+        Invoke-WebRequest `
+            -UseBasicParsing `
+            -Uri https://dotnetbinaries.blob.core.windows.net/referenceassemblies/v${_}.zip `
+            -OutFile referenceassemblies.zip; `
+        Expand-Archive referenceassemblies.zip `
+            -DestinationPath \"${Env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\" `
+            -Force; `
+        Remove-Item -Force referenceassemblies.zip; `
+    }"
 
 # Install .NET Core 2.0
 ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/5/F/0/5F0362BD-7D0A-4A9D-9BF9-022C6B15B04D/dotnet-runtime-2.0.0-win-x64.zip
