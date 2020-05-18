@@ -55,15 +55,15 @@ RUN choco install \
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Targeting Packs
-RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ `
-        Invoke-WebRequest `
-            -UseBasicParsing `
-            -Uri https://dotnetbinaries.blob.core.windows.net/referenceassemblies/v${_}.zip `
-            -OutFile referenceassemblies.zip; `
-        Expand-Archive referenceassemblies.zip `
-            -DestinationPath \"${Env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\" `
-            -Force; `
-        Remove-Item -Force referenceassemblies.zip; `
+RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ \
+        Invoke-WebRequest \
+            -UseBasicParsing \
+            -Uri https://dotnetbinaries.blob.core.windows.net/referenceassemblies/v${_}.zip \
+            -OutFile referenceassemblies.zip; \
+        Expand-Archive referenceassemblies.zip \
+            -DestinationPath \"${Env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\" \
+            -Force; \
+        Remove-Item -Force referenceassemblies.zip; \
     }"
 
 # Install .NET Core 2.0
