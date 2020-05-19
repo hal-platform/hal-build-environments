@@ -14,28 +14,6 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 ENV chocolateyUseWindowsCompression=false
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
 
-# Download the Build Tools bootstrapper.
-ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
-
-SHELL ["cmd", "/S", "/C"]
-
-# Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
-# Install VS components
-RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
-    && start /w C:\TEMP\vs_BuildTools.exe ^ \
-        --add Microsoft.VisualStudio.Workload.MSBuildTools ^ \
-        --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ \
-        --add Microsoft.Component.ClickOnce.MSBuild ^ \
-        --add Microsoft.VisualStudio.Component.WebDeploy ^ \
-        --quiet --norestart --nocache --wait \
-    && powershell -Command "if ($err = dir $Env:TEMP -Filter dd_setup_*_errors.log | where Length -gt 0 | Get-Content) { throw $err }" \
-    && del C:\TEMP\vs_BuildTools.exe \
-    \
-    # Cleanup
-    && rmdir /S /Q "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer" \
-    && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
-    && rmdir /S /Q "%ProgramData%\Package Cache"
-
 RUN choco feature enable -n=allowGlobalConfirmation
 RUN choco feature disable -n=showDownloadProgress
 RUN choco config set cachelocation C:\chococache
@@ -47,7 +25,7 @@ RUN choco install \
     curl \
     maven \
     gradle \
-    docker \
+    docker-cli \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
@@ -79,10 +57,45 @@ RUN choco install \
     --ignore-package-exit-codes \
     ; Remove-Item C:\chococache  -Recurse -Force
 
+SHELL ["cmd", "/S", "/C"]
+
+# Download the Build Tools bootstrapper.
+ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
+
+SHELL ["cmd", "/S", "/C"]
+
+# Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
+# Install VS components
+RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
+    && start /w C:\TEMP\vs_BuildTools.exe ^ \
+        --add Microsoft.VisualStudio.Workload.MSBuildTools ^ \
+        --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ \
+        --add Microsoft.Component.ClickOnce.MSBuild ^ \
+        --add Microsoft.VisualStudio.Component.WebDeploy ^ \
+        --quiet --norestart --nocache --wait \
+    && powershell -Command "if ($err = dir $Env:TEMP -Filter dd_setup_*_errors.log | where Length -gt 0 | Get-Content) { throw $err }" \
+    && del C:\TEMP\vs_BuildTools.exe \
+    \
+    # Cleanup
+    && rmdir /S /Q "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer" \
+    && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
+    && rmdir /S /Q "%ProgramData%\Package Cache"
+
 # Install web targets
 RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
     && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0" \
     && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
+
+# Set PATH in one layer to keep image size down.
+RUN powershell setx /M PATH $(${Env:PATH} \
+    + \";${Env:ProgramFiles}\NuGet\" \
+    + \";${Env:ProgramFiles(x86)}\MSBuild\15.0\Bin\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\ClickOnce\SignTool\")
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Targeting Packs
 RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ \
@@ -114,19 +127,6 @@ ENV DOTNET_DOWNLOAD_URL https://download.visualstudio.microsoft.com/download/pr/
 RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
-
-SHELL ["cmd", "/S", "/C"]
-
-# Set PATH in one layer to keep image size down.
-RUN powershell setx /M PATH $(${Env:PATH} \
-    + \";${Env:ProgramFiles}\NuGet\" \
-    + \";${Env:ProgramFiles(x86)}\MSBuild\15.0\Bin\" \
-    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" \
-    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" \
-    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" \
-    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\ClickOnce\SignTool\")
-
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
