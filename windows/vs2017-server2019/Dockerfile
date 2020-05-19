@@ -38,7 +38,7 @@ RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
 
 # Install web targets
 RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
-    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v14.0" \
+    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0" \
     && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
 
 RUN choco feature enable -n=allowGlobalConfirmation
