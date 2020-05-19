@@ -5,11 +5,10 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-
 ENV chocolateyUseWindowsCompression=false
-
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN choco feature enable -n=allowGlobalConfirmation
 RUN choco feature disable -n=showDownloadProgress
