@@ -1,16 +1,20 @@
-FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019
+# Because its impossible to search for microsoft images anymore:
+# https://hub.docker.com/_/microsoft-dotnet-framework-sdk
+# NOTE: DO NOT use "mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019" as it uses vs2019
+FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
+
+# https://github.com/microsoft/dotnet-framework-docker/blob/7ea28f0c8e9ca278eb5d38c67fe67987e8432ed8/4.8/sdk/windowsservercore-1903/Dockerfile
 # See https://github.com/Microsoft/dotnet-framework-docker/blob/33531c3bae718f970b704730703ba1fb0f3dff80/4.7.2/sdk/windowsservercore-ltsc2019/Dockerfile
 
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-# We use the same configuration as Microsoft's VSTS agents
-# https://github.com/Microsoft/vsts-agent-docker/blob/master/windows/servercore/10.0.14393/standard/VS2017/Dockerfile
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ENV chocolateyUseWindowsCompression=false
-
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
 
+RUN choco feature enable -n=allowGlobalConfirmation
 RUN choco feature disable -n=showDownloadProgress
 RUN choco config set cachelocation C:\chococache
 
@@ -21,16 +25,16 @@ RUN choco install \
     curl \
     maven \
     gradle \
-    docker \
-    --confirm \
+    docker-cli \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
+# Package parameters is BROKEN
+# --package-parameters '--passive --includeOptional --locale en-US' \
+
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters "--passive --locale en-US --includeOptional" \
-    --confirm \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
@@ -38,7 +42,6 @@ RUN choco install \
 RUN choco install \
     visualstudio2017-workload-netcoretools \
     visualstudio2017-workload-netweb \
-    --confirm \
     --limit-output \
     --timeout 3600 \
     --ignore-package-exit-codes \
@@ -51,53 +54,91 @@ RUN choco install \
     netfx-4.7.2-devpack \
     netfx-4.6.2-devpack \
     netfx-4.5.2-devpack \
-    netfx-4.0.3-devpack \
-    --confirm \
     --limit-output \
     --timeout 1800 \
     --ignore-package-exit-codes \
     ; Remove-Item C:\chococache  -Recurse -Force
 
+# Download the Build Tools bootstrapper.
+ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
+
+SHELL ["cmd", "/S", "/C"]
+
+# Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
+# Install VS components
+RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
+    && start /w C:\TEMP\vs_BuildTools.exe ^ \
+        --add Microsoft.VisualStudio.Workload.MSBuildTools ^ \
+        --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ \
+        --add Microsoft.Component.ClickOnce.MSBuild ^ \
+        --add Microsoft.VisualStudio.Component.WebDeploy ^ \
+        --quiet --norestart --nocache --wait \
+    && powershell -Command "if ($err = dir $Env:TEMP -Filter dd_setup_*_errors.log | where Length -gt 0 | Get-Content) { throw $err }" \
+    && del C:\TEMP\vs_BuildTools.exe \
+    \
+    # Cleanup
+    && rmdir /S /Q "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer" \
+    && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
+    && rmdir /S /Q "%ProgramData%\Package Cache"
+
+# Install web targets
+RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
+    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0" \
+    && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
+
+# Set PATH in one layer to keep image size down.
+RUN powershell setx /M PATH $(${Env:PATH} \
+    + \";${Env:ProgramFiles}\NuGet\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\ClickOnce\SignTool\")
+
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Install .NET Core 1.0.5, 1.1.2
-ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-win-x64.1.1.2.zip
-ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/E/7/8/E782433E-7737-4E6C-BFBF-290A0A81C3D7/dotnet-dev-win-x64.1.0.4.zip
+# Targeting Packs
+RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ \
+        Invoke-WebRequest \
+            -UseBasicParsing \
+            -Uri https://dotnetbinaries.blob.core.windows.net/referenceassemblies/v${_}.zip \
+            -OutFile referenceassemblies.zip; \
+        Expand-Archive referenceassemblies.zip \
+            -DestinationPath \"${Env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\" \
+            -Force; \
+        Remove-Item -Force referenceassemblies.zip; \
+    }"
 
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+# Install .NET Core 2.1
+RUN Invoke-WebRequest \
+    "https://dotnetcli.azureedge.net/dotnet/Sdk/2.1.806/dotnet-sdk-2.1.806-win-x64.zip" \
+    -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip \
+        -DestinationPath "${Env:ProgramFiles}\dotnet" \
+        -Force; \
     Remove-Item -Force dotnet.zip
 
-RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+# Install .NET Core 3.1
+RUN Invoke-WebRequest \
+    "https://dotnetcli.azureedge.net/dotnet/Sdk/3.1.202/dotnet-sdk-3.1.202-win-x64.zip" \
+    -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip \
+        -DestinationPath "${Env:ProgramFiles}\dotnet" \
+        -Force; \
     Remove-Item -Force dotnet.zip
 
-# Install .NET Core 2.0
-ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/5/F/0/5F0362BD-7D0A-4A9D-9BF9-022C6B15B04D/dotnet-runtime-2.0.0-win-x64.zip
-ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/1/B/4/1B4DE605-8378-47A5-B01B-2C79D6C55519/dotnet-sdk-2.0.0-win-x64.zip
+SHELL ["cmd", "/S", "/C"]
 
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
+# In order to set system PATH, ContainerAdministrator must be used
+USER ContainerAdministrator
+RUN setx /M PATH "%PATH%;C:\Program Files\dotnet"
+USER ContainerUser
 
-RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
-
-# Install .NET Core 2.2
-ENV DOTNET_DOWNLOAD_URL https://download.visualstudio.microsoft.com/download/pr/c332d70f-6582-4471-96af-4b0c17a616ad/5f3043d4bc506bf91cb89fa90462bb58/dotnet-sdk-2.2.103-win-x64.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
-
-RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\MSBuild\15.0\Bin', [EnvironmentVariableTarget]::Machine);
-RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE', [EnvironmentVariableTarget]::Machine);
-RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow', [EnvironmentVariableTarget]::Machine);
-RUN [Environment]::SetEnvironmentVariable('PATH', "${Env:path}" + ';C:\Program Files\dotnet', [EnvironmentVariableTarget]::Machine);
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 RUN dotnet --list-sdks ; \
     mkdir C:\warmup ; \
