@@ -9,11 +9,10 @@ FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
+SHELL ["cmd", "/S", "/C"]
+
 ENV chocolateyUseWindowsCompression=false
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
-
-SHELL ["cmd", "/S", "/C"]
 
 # Download the Build Tools bootstrapper.
 ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
@@ -130,6 +129,7 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 RUN dotnet --list-sdks ; \
     mkdir C:\warmup ; \
