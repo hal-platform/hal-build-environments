@@ -9,13 +9,15 @@ FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
-SHELL ["cmd", "/S", "/C"]
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ENV chocolateyUseWindowsCompression=false
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
 
 # Download the Build Tools bootstrapper.
 ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
+
+SHELL ["cmd", "/S", "/C"]
 
 # Install VS components
 RUN \
