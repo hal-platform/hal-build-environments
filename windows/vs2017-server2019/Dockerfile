@@ -89,7 +89,7 @@ RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbina
 # Set PATH in one layer to keep image size down.
 RUN powershell setx /M PATH $(${Env:PATH} \
     + \";${Env:ProgramFiles}\NuGet\" \
-    + \";${Env:ProgramFiles(x86)}\MSBuild\15.0\Bin\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\" \
     + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" \
     + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" \
     + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" \
