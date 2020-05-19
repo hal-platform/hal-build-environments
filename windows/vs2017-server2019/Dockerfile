@@ -5,6 +5,8 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019
 # Container Compatibility
 # See https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility
 
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
 ENV chocolateyUseWindowsCompression=false
 
 RUN iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
@@ -27,7 +29,7 @@ RUN choco install \
 
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters "'--passive --locale en-US --includeRecommended'" \
+    --package-parameters "'--passive --locale en-US'" \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
