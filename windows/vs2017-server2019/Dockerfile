@@ -30,13 +30,15 @@ RUN choco install \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
-# --locale en-US 
+SHELL ["cmd", "/S", "/C"]
+
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters "'--passive --includeOptional'" \
+    --package-parameters "'--passive --includeOptional --locale en-US" \
     --limit-output \
     --timeout 3600 \
-    ; Remove-Item C:\chococache  -Recurse -Force
+    && Remove-Item C:\chococache  -Recurse -Force
+
 
 RUN choco install \
     visualstudio2017-workload-netcoretools \
@@ -45,7 +47,9 @@ RUN choco install \
     --timeout 3600 \
     --ignore-package-exit-codes \
     --package-parameters "--includeOptional" \
-    ; Remove-Item C:\chococache  -Recurse -Force
+    && Remove-Item C:\chococache  -Recurse -Force
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
 RUN choco install \
@@ -58,7 +62,6 @@ RUN choco install \
     --ignore-package-exit-codes \
     ; Remove-Item C:\chococache  -Recurse -Force
 
-SHELL ["cmd", "/S", "/C"]
 
 # Download the Build Tools bootstrapper.
 ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
