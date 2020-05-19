@@ -30,15 +30,13 @@ RUN choco install \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
-SHELL ["cmd", "/S", "/C"]
-
+#  --includeOptional --locale en-US
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters "'--passive --includeOptional --locale en-US" \
+    --package-parameters "--passive" \
     --limit-output \
     --timeout 3600 \
-    && Remove-Item C:\chococache  -Recurse -Force
-
+    ; Remove-Item C:\chococache  -Recurse -Force
 
 RUN choco install \
     visualstudio2017-workload-netcoretools \
@@ -47,9 +45,7 @@ RUN choco install \
     --timeout 3600 \
     --ignore-package-exit-codes \
     --package-parameters "--includeOptional" \
-    && Remove-Item C:\chococache  -Recurse -Force
-
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+    ; Remove-Item C:\chococache  -Recurse -Force
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
 RUN choco install \
