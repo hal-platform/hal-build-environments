@@ -37,7 +37,6 @@ RUN choco install \
     visualstudio2017enterprise \
     --limit-output \
     --timeout 3600 \
-    ; Get-Content -Path 'C:\ProgramData\chocolatey\logs\chocolatey.log' -Tail 500 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
 RUN choco install \
@@ -47,7 +46,6 @@ RUN choco install \
     --timeout 3600 \
     --ignore-package-exit-codes \
     --package-parameters "--includeOptional" \
-    ; Get-Content -Path 'C:\ProgramData\chocolatey\logs\chocolatey.log' -Tail 500 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
@@ -111,24 +109,32 @@ RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ \
         Remove-Item -Force referenceassemblies.zip; \
     }"
 
-# Install .NET Core 2.0
-ENV DOTNET_DOWNLOAD_URL     https://download.microsoft.com/download/5/F/0/5F0362BD-7D0A-4A9D-9BF9-022C6B15B04D/dotnet-runtime-2.0.0-win-x64.zip
-ENV DOTNET_SDK_DOWNLOAD_URL https://download.microsoft.com/download/1/B/4/1B4DE605-8378-47A5-B01B-2C79D6C55519/dotnet-sdk-2.0.0-win-x64.zip
-
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+# Install .NET Core 2.1
+RUN Invoke-WebRequest \
+    "https://dotnetcli.azureedge.net/dotnet/Sdk/2.1.806/dotnet-sdk-2.1.806-win-x64.zip" \
+    -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip \
+        -DestinationPath "${Env:ProgramFiles}\dotnet" \
+        -Force; \
     Remove-Item -Force dotnet.zip
 
-RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
+# Install .NET Core 3.1
+RUN Invoke-WebRequest \
+    "https://dotnetcli.azureedge.net/dotnet/Sdk/3.1.202/dotnet-sdk-3.1.202-win-x64.zip" \
+    -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip \
+        -DestinationPath "${Env:ProgramFiles}\dotnet" \
+        -Force; \
     Remove-Item -Force dotnet.zip
 
-# Install .NET Core 2.2
-ENV DOTNET_DOWNLOAD_URL https://download.visualstudio.microsoft.com/download/pr/c332d70f-6582-4471-96af-4b0c17a616ad/5f3043d4bc506bf91cb89fa90462bb58/dotnet-sdk-2.2.103-win-x64.zip
+SHELL ["cmd", "/S", "/C"]
 
-RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
-    Remove-Item -Force dotnet.zip
+# In order to set system PATH, ContainerAdministrator must be used
+USER ContainerAdministrator
+RUN setx /M PATH "%PATH%;C:\Program Files\dotnet"
+USER ContainerUser
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
