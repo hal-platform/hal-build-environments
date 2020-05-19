@@ -19,26 +19,26 @@ SHELL ["cmd", "/S", "/C"]
 ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
 
 # Install VS components
-RUN `
+RUN \
     # Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
-    && setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 `
-    && start /w C:\TEMP\vs_BuildTools.exe ^ `
-        --add Microsoft.VisualStudio.Workload.MSBuildTools ^ `
-        --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ `
-        --add Microsoft.Component.ClickOnce.MSBuild ^ `
-        --add Microsoft.VisualStudio.Component.WebDeploy ^ `
-        --quiet --norestart --nocache --wait `
-    && powershell -Command "if ($err = dir $Env:TEMP -Filter dd_setup_*_errors.log | where Length -gt 0 | Get-Content) { throw $err }" `
-    && del C:\TEMP\vs_BuildTools.exe `
-    `
+    && setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
+    && start /w C:\TEMP\vs_BuildTools.exe ^ \
+        --add Microsoft.VisualStudio.Workload.MSBuildTools ^ \
+        --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ \
+        --add Microsoft.Component.ClickOnce.MSBuild ^ \
+        --add Microsoft.VisualStudio.Component.WebDeploy ^ \
+        --quiet --norestart --nocache --wait \
+    && powershell -Command "if ($err = dir $Env:TEMP -Filter dd_setup_*_errors.log | where Length -gt 0 | Get-Content) { throw $err }" \
+    && del C:\TEMP\vs_BuildTools.exe \
+    \
     # Cleanup
-    && rmdir /S /Q "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer" `
-    && powershell Remove-Item -Force -Recurse "%TEMP%\*" `
+    && rmdir /S /Q "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer" \
+    && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
     && rmdir /S /Q "%ProgramData%\Package Cache"
 
 # Install web targets
-RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip `
-    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v14.0" `
+RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
+    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v14.0" \
     && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
 
 RUN choco feature enable -n=allowGlobalConfirmation
@@ -118,12 +118,12 @@ RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
 SHELL ["cmd", "/S", "/C"]
 
 # Set PATH in one layer to keep image size down.
-RUN powershell setx /M PATH $(${Env:PATH} `
-    + \";${Env:ProgramFiles}\NuGet\" `
-    + \";${Env:ProgramFiles(x86)}\MSBuild\15.0\Bin\" `
-    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" `
-    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" `
-    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" `
+RUN powershell setx /M PATH $(${Env:PATH} \
+    + \";${Env:ProgramFiles}\NuGet\" \
+    + \";${Env:ProgramFiles(x86)}\MSBuild\15.0\Bin\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\" \
+    + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\" \
     + \";${Env:ProgramFiles(x86)}\Microsoft SDKs\ClickOnce\SignTool\")
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
