@@ -30,10 +30,11 @@ RUN choco install \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
-#  --includeOptional --locale en-US
+# Package parameters is BROKEN
+# --package-parameters '--passive --includeOptional --locale en-US' \
+
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters '--passive --includeOptional --locale en-US' \
     --limit-output \
     --timeout 3600 \
     ; Get-Content -Path 'C:\ProgramData\chocolatey\logs\chocolatey.log' -Tail 500 \
