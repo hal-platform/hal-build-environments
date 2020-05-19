@@ -36,6 +36,7 @@ RUN choco install \
     --package-parameters "--passive" \
     --limit-output \
     --timeout 3600 \
+    ; Get-Content -Path 'C:\ProgramData\chocolatey\logs\chocolatey.log' -Tail 500 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
 RUN choco install \
@@ -45,6 +46,7 @@ RUN choco install \
     --timeout 3600 \
     --ignore-package-exit-codes \
     --package-parameters "--includeOptional" \
+    ; Get-Content -Path 'C:\ProgramData\chocolatey\logs\chocolatey.log' -Tail 500 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
 # Install NuGet, .NET Framework 4.5, 4.6, 4.7
@@ -57,7 +59,6 @@ RUN choco install \
     --timeout 1800 \
     --ignore-package-exit-codes \
     ; Remove-Item C:\chococache  -Recurse -Force
-
 
 # Download the Build Tools bootstrapper.
 ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
