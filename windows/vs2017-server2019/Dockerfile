@@ -36,11 +36,6 @@ RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
     && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
     && rmdir /S /Q "%ProgramData%\Package Cache"
 
-# Install web targets
-RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
-    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0" \
-    && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
-
 RUN choco feature enable -n=allowGlobalConfirmation
 RUN choco feature disable -n=showDownloadProgress
 RUN choco config set cachelocation C:\chococache
@@ -83,6 +78,11 @@ RUN choco install \
     --timeout 1800 \
     --ignore-package-exit-codes \
     ; Remove-Item C:\chococache  -Recurse -Force
+
+# Install web targets
+RUN curl -fSLo MSBuild.Microsoft.VisualStudio.Web.targets.zip https://dotnetbinaries.blob.core.windows.net/dockerassets/MSBuild.Microsoft.VisualStudio.Web.targets.2020.03.zip \
+    && tar -zxf MSBuild.Microsoft.VisualStudio.Web.targets.zip -C "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0" \
+    && del MSBuild.Microsoft.VisualStudio.Web.targets.zip
 
 # Targeting Packs
 RUN "@('4.0', '4.5.2', '4.6.2', '4.7.2', '4.8') | %{ \
