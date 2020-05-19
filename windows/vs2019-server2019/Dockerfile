@@ -79,10 +79,14 @@ RUN Invoke-WebRequest \
         -Force; \
     Remove-Item -Force dotnet.zip
 
+SHELL ["cmd", "/S", "/C"]
+
 # In order to set system PATH, ContainerAdministrator must be used
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%;C:\Program Files\dotnet"
 USER ContainerUser
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
