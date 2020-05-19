@@ -30,9 +30,10 @@ RUN choco install \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
 
+# --locale en-US 
 RUN choco install \
     visualstudio2017enterprise \
-    --package-parameters "'--passive --locale en-US --includeOptional'" \
+    --package-parameters "'--passive --includeOptional'" \
     --limit-output \
     --timeout 3600 \
     ; Remove-Item C:\chococache  -Recurse -Force
