@@ -19,10 +19,9 @@ ADD "https://aka.ms/vs/15/release/vs_buildtools.exe" "C:\TEMP\vs_buildtools.exe"
 
 SHELL ["cmd", "/S", "/C"]
 
+# Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
 # Install VS components
-RUN \
-    # Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
-    && setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
+RUN setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 \
     && start /w C:\TEMP\vs_BuildTools.exe ^ \
         --add Microsoft.VisualStudio.Workload.MSBuildTools ^ \
         --add Microsoft.VisualStudio.Workload.NetCoreBuildTools ^ \
