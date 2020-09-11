@@ -145,26 +145,26 @@ workflows:
                     - build_docker18_03
                     - build_docker19_03
 
-                - build_image:
-                    name: 'build_python_27_debian9'
-                    path: './python/2.7-debian'
-                    tag: 'python2.7-debian9'
-                    requires: ['fan_in_3']
-                - build_image:
-                    name: 'build_python_27_centos7'
-                    path: './python/2.7'
-                    tag: 'python2.7-centos7'
-                    requires: ['fan_in_3']
-                - build_image:
-                    name: 'build_python_36_debian9'
-                    path: './python/3.6-debian'
-                    tag: 'python3.6-debian9'
-                    requires: ['fan_in_3']
-                - build_image:
-                    name: 'build_python_36_centos7'
-                    path: './python/3.6'
-                    tag: 'python3.6-centos7'
-                    requires: ['fan_in_3']
+            - build_image:
+                name: 'build_python_27_debian9'
+                path: './python/2.7-debian'
+                tag: 'python2.7-debian9'
+                requires: ['fan_in_3']
+            - build_image:
+                name: 'build_python_27_centos7'
+                path: './python/2.7'
+                tag: 'python2.7-centos7'
+                requires: ['fan_in_3']
+            - build_image:
+                name: 'build_python_36_debian9'
+                path: './python/3.6-debian'
+                tag: 'python3.6-debian9'
+                requires: ['fan_in_3']
+            - build_image:
+                name: 'build_python_36_centos7'
+                path: './python/3.6'
+                tag: 'python3.6-centos7'
+                requires: ['fan_in_3']
 
             - fan_in:
                 name: 'fan_in_4'
