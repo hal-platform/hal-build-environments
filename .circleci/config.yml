@@ -318,8 +318,11 @@ jobs:
                 image: "${DCR_IMAGE}"
                 tag: '<< parameters.tag >>'
             - run:
-                name: ''
+                name: 'Retag image'
                 command: |
+                    docker tag \
+                        "${DCR_REGISTRY}/${DCR_IMAGE}:<< parameters.tag >>" \
+                        "${GCHR_REGISTRY}/${GCHR_IMAGE}:<< parameters.tag >>"
 
             - docker/push:
                 registry: "${GCHR_REGISTRY}"
